@@ -1,0 +1,8 @@
+# IDE
+.vscode/
+
+# Build
+bin/
+
+# Other
+properties.mk
