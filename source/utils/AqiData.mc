@@ -74,7 +74,7 @@ class AqiData {
       "https://api.waqi.info/feed/geo:" +
       latitude.toString() +
       ";" +
-      latitude.toString() +
+      longitude.toString() +
       "/?token=" +
       _apiToken;
 

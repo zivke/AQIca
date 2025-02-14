@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.1] - 2025-01-28
+## [0.0.2] - 2025-02-15
+
+### Fixed
+
+- Fix the mistake in usage of GSP location to get the data
+
+## [0.0.1] - 2025-02-14
 
 ### Added
 
@@ -16,5 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic error handling
 - Use last known location (from Weather)
 
-[unreleased]: https://github.com/zivke/SimpTemp/compare/v0.0.1...HEAD
+[unreleased]: https://github.com/zivke/SimpTemp/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/zivke/SimpTemp/releases/tag/v0.0.2
 [0.0.1]: https://github.com/zivke/SimpTemp/releases/tag/v0.0.1
