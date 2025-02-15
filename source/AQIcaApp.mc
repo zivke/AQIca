@@ -26,7 +26,14 @@ class AQIcaApp extends Application.AppBase {
   // onStart() is called on application start up
   function onStart(state as Dictionary?) as Void {
     if (_aqiData != null) {
-      _aqiData.load();
+      try {
+        _aqiData.load();
+      } catch (exception) {
+        System.println("Exception thrown: " + exception.getErrorMessage());
+        _aqiData.destroy();
+        _aqiData = null;
+        _exception = exception as AqiException;
+      }
     }
   }
 
@@ -53,12 +60,6 @@ class AQIcaApp extends Application.AppBase {
       }
     } else {
       return [new AQIcaView(_aqiData)] as Array<Views or InputDelegates>;
-    }
-  }
-
-  function onSettingsChanged() as Void {
-    if (_aqiData != null) {
-      _aqiData.load();
     }
   }
 }

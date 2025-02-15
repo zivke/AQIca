@@ -4,38 +4,48 @@ import Toybox.Lang;
 import Toybox.Weather;
 
 class AqiData {
+  private var _latitude as Double?;
+  private var _longitude as Double?;
+
   private var _city as String = "N/A";
   private var _aqi as Number?;
-  private var _pm25 as Number?;
-  private var _pm10 as Number?;
+  private var _iaqi as Dictionary?;
+
+  private var _boxSizeIncrement as Double = 0.02d;
 
   private var _apiToken as String?;
 
-  function load() {
-    reset();
-
+  function initialize() {
+    // Check compatibility
     if (Toybox has :Weather) {
       var currentConditions = Weather.getCurrentConditions();
       if (currentConditions == null) {
-        throw new FatalErrorException("Current weather conditions  not available");
+        throw new FatalErrorException(
+          "Current weather conditions not available"
+        );
       }
 
       if (currentConditions.observationLocationPosition == null) {
         throw new FatalErrorException("Last know position not available");
       }
-
-      var lastKnownLocation =
-        currentConditions.observationLocationPosition.toDegrees();
-
-      var latitude = lastKnownLocation[0];
-      var longitude = lastKnownLocation[1];
-
-    //   System.println("Last known location: " + latitude + "; " + longitude);
-
-      requestHttpDataByPosition(latitude, longitude);
     } else {
       throw new UnsupportedException("Weather module not supported");
     }
+  }
+
+  function load() {
+    reset();
+
+    if (_latitude == null || _longitude == null) {
+        throw new FatalErrorException("Invalid last known location");
+    }
+
+    requestHttpDataByPositionBox(
+      _latitude + _boxSizeIncrement,
+      _longitude - _boxSizeIncrement,
+      _latitude - _boxSizeIncrement,
+      _longitude + _boxSizeIncrement
+    );
   }
 
   function destroy() {
@@ -50,38 +60,58 @@ class AqiData {
     return _aqi;
   }
 
-  function getPm25() as Number? {
-    return _pm25;
-  }
-
-  function getPm10() as Number? {
-    return _pm10;
+  function getIaqi() as Dictionary? {
+    return _iaqi;
   }
 
   private function reset() {
+    var lastKnownLocation =
+      Weather.getCurrentConditions().observationLocationPosition.toDegrees();
+
+    _latitude = lastKnownLocation[0] as Double;
+    _longitude = lastKnownLocation[1] as Double;
+
+    // System.println("Last known location: " + _latitude + "; " + _longitude);
+
     _city = "N/A";
     _aqi = null;
-    _pm25 = null;
-    _pm10 = null;
+    _iaqi = null;
+
+    _boxSizeIncrement = 0.02d;
+
     _apiToken = Properties.getValue("ApiKey") as String?;
   }
 
-  private function requestHttpDataByPosition(
-    latitude as Double,
-    longitude as Double
+  private function requestHttpDataByPositionBox(
+    latitude1 as Double,
+    longitude1 as Double,
+    latitude2 as Double,
+    longitude2 as Double
   ) {
     var url =
-      "https://api.waqi.info/feed/geo:" +
-      latitude.toString() +
-      ";" +
-      longitude.toString() +
-      "/?token=" +
+      "https://api2.waqi.info/map/bounds?latlng=" +
+      latitude1.toString() +
+      "," +
+      longitude1.toString() +
+      "," +
+      latitude2.toString() +
+      "," +
+      longitude2.toString() +
+      "&networks=all&token=" +
       _apiToken;
 
     makeHttpRequest(url);
   }
 
+  private function requestHttpDataByStationUid(uid as Number) {
+    var url = "https://api2.waqi.info/feed/@" + uid + "/?token=" + _apiToken;
+
+    makeHttpRequest(url);
+  }
+
   private function makeHttpRequest(url as String) as Void {
+    // System.println("Request sent: " + url);
+
     var options = {
       :method => Communications.HTTP_REQUEST_METHOD_GET,
       :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON,
@@ -99,57 +129,87 @@ class AqiData {
         //   System.println("Data received: " + response);
 
           if (response.hasKey("data")) {
-            var data = response.get("data") as Dictionary;
-            if (data.hasKey("city")) {
-              var city = data.get("city") as Dictionary;
-              if (city.hasKey("name")) {
-                _city = city.get("name") as String;
-              } else {
-                // TODO: Malformed response received
-                System.println("Malformed response received: " + response);
-              }
-            } else {
-              // TODO: Malformed response received
-              System.println("Malformed response received: " + response);
-            }
+            if (response.get("data") instanceof Array) {
+              var data = response.get("data") as Array<Dictionary>;
+              if (data.size() == 0) {
+                // Increase the box and repeat the request
+                _boxSizeIncrement *= 2;
+                requestHttpDataByPositionBox(
+                  _latitude + _boxSizeIncrement,
+                  _longitude - _boxSizeIncrement,
+                  _latitude - _boxSizeIncrement,
+                  _longitude + _boxSizeIncrement
+                );
+                return; // Do not update the UI, but repeat the request/response cycle
 
-            if (data.hasKey("aqi")) {
-              _aqi = data.get("aqi") as Number;
-            } else {
-              // TODO: Malformed response received
-              System.println("Malformed response received: " + response);
-            }
+                // TODO: Inform the user what is happening
+              } else if (data.size() == 1) {
+                // Success - we were lucky and there is only one station in the vicinity
+                // Get the station index, request the data using the index and extract the data
+                var station = data[0] as Dictionary;
+                if (station.hasKey("uid")) {
+                  var uid = station.get("uid") as Number;
+                  requestHttpDataByStationUid(uid);
+                  return; // Do not update the UI, but repeat the request/response cycle
 
-            if (data.hasKey("iaqi")) {
-              var iaqi = data.get("iaqi") as Dictionary;
-              if (iaqi.hasKey("pm25")) {
-                var pm25 = iaqi.get("pm25") as Dictionary;
-                if (pm25.hasKey("v")) {
-                  _pm25 = pm25.get("v") as Number;
-                } else {
-                  // TODO: Malformed response received
-                  System.println("Malformed response received: " + response);
-                }
-              } else {
-                // TODO: Malformed response received
-                System.println("Malformed response received: " + response);
-              }
-
-              if (iaqi.hasKey("pm10")) {
-                var pm10 = iaqi.get("pm10") as Dictionary;
-                if (pm10.hasKey("v")) {
-                  _pm10 = pm10.get("v") as Number;
+                  // TODO: Inform the user what is happening
                 } else {
                   // TODO: Malformed response
                   System.println("Malformed response received: " + response);
                 }
               } else {
-                // TODO: Malformed response
-                System.println("Malformed response received: " + response);
+                // Multiple stations found in the box
+                // Go through all of the received stations and select the closest one, get its index
+                // and request the data using the index and then extract the data
+                var closestUid = null;
+                var minDistance = null;
+                for (var i = 0; i < data.size(); i++) {
+                  var station = data[i] as Dictionary;
+                  if (station.hasKey("lat") && station.hasKey("lon")) {
+                    var latitude = station.get("lat") as Double;
+                    var longitude = station.get("lon") as Double;
+                    var distance =
+                      _latitude - latitude + _longitude - longitude;
+
+                    if (station.hasKey("uid")) {
+                      var uid = station.get("uid") as Number;
+                      if (closestUid == null) {
+                        closestUid = uid;
+                      }
+
+                      if (minDistance == null) {
+                        minDistance = distance;
+                      }
+
+                      if (distance < minDistance) {
+                        minDistance = distance;
+                        closestUid = uid;
+                      }
+                    } else {
+                      // TODO: Malformed response
+                      System.println(
+                        "Malformed response received: " + response
+                      );
+                    }
+                  } else {
+                    // TODO: Malformed response
+                    System.println("Malformed response received: " + response);
+                  }
+                }
+
+                if (closestUid != null) {
+                  requestHttpDataByStationUid(closestUid);
+                  return; // Do not update the UI, but repeat the request/response cycle
+
+                  // TODO: Inform the user what is happening
+                } else {
+                  // TODO: Something went horribly wrong
+                }
               }
             } else {
-              // TODO: Malformed response
-              System.println("Malformed response received: " + response);
+              // The station has been requested by index and received
+              var data = response.get("data") as Dictionary;
+              extractData(data);
             }
           } else {
             // TODO: Malformed response
@@ -169,5 +229,34 @@ class AqiData {
     }
 
     WatchUi.requestUpdate();
+  }
+
+  private function extractData(data as Dictionary) {
+    if (data.hasKey("city")) {
+      var city = data.get("city") as Dictionary;
+      if (city.hasKey("name")) {
+        _city = city.get("name") as String;
+      } else {
+        // TODO: Malformed response received
+        System.println("Malformed data received: " + data);
+      }
+    } else {
+      // TODO: Malformed response received
+      System.println("Malformed data received: " + data);
+    }
+
+    if (data.hasKey("aqi")) {
+      _aqi = data.get("aqi") as Number;
+    } else {
+      // TODO: Malformed response received
+      System.println("Malformed data received: " + data);
+    }
+
+    if (data.hasKey("iaqi")) {
+      _iaqi = data.get("iaqi") as Dictionary;
+    } else {
+      // TODO: Malformed response
+      System.println("Malformed data received: " + data);
+    }
   }
 }
