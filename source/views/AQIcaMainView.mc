@@ -2,8 +2,8 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-class AQIcaView extends WatchUi.View {
-  private var _aqiData as AqiData?;
+class AQIcaMainView extends WatchUi.View {
+  private var _aqiData as AqiData;
 
   function initialize(aqiData as AqiData) {
     self._aqiData = aqiData;
