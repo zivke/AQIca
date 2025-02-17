@@ -62,9 +62,10 @@ class AQIcaView extends WatchUi.View {
     }
 
     // Set the City label value
-    var cityTextArea = View.findDrawableById("CityValue") as Text?;
-    if (cityTextArea != null) {
-      cityTextArea.setText(_aqiData.getCity());
+    var stationNameTextArea =
+      View.findDrawableById("StationNameValue") as Text?;
+    if (stationNameTextArea != null) {
+      stationNameTextArea.setText(_aqiData.getStationName());
     }
 
     // Call the parent onUpdate function to redraw the layout

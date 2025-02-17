@@ -7,7 +7,7 @@ class AqiData {
   private var _latitude as Double?;
   private var _longitude as Double?;
 
-  private var _city as String = "N/A";
+  private var _stationName as String = "N/A";
   private var _aqi as Number?;
   private var _iaqi as Dictionary?;
 
@@ -37,7 +37,7 @@ class AqiData {
     reset();
 
     if (_latitude == null || _longitude == null) {
-        throw new FatalErrorException("Invalid last known location");
+      throw new FatalErrorException("Invalid last known location");
     }
 
     requestHttpDataByPositionBox(
@@ -52,8 +52,8 @@ class AqiData {
     Communications.cancelAllRequests();
   }
 
-  function getCity() as String {
-    return _city;
+  function getStationName() as String {
+    return _stationName;
   }
 
   function getAqi() as Number? {
@@ -73,7 +73,7 @@ class AqiData {
 
     // System.println("Last known location: " + _latitude + "; " + _longitude);
 
-    _city = "N/A";
+    _stationName = "N/A";
     _aqi = null;
     _iaqi = null;
 
@@ -126,7 +126,7 @@ class AqiData {
     if (responseCode == 200) {
       if (response != null && response instanceof Dictionary) {
         if (response.hasKey("status") && response.get("status").equals("ok")) {
-        //   System.println("Data received: " + response);
+          //   System.println("Data received: " + response);
 
           if (response.hasKey("data")) {
             if (response.get("data") instanceof Array) {
@@ -234,8 +234,16 @@ class AqiData {
   private function extractData(data as Dictionary) {
     if (data.hasKey("city")) {
       var city = data.get("city") as Dictionary;
-      if (city.hasKey("name")) {
-        _city = city.get("name") as String;
+      if (city.hasKey("location")) {
+        _stationName = city.get("location") as String;
+        if (_stationName.equals("")) {
+          if (city.hasKey("name")) {
+            _stationName = city.get("name") as String;
+          }
+        } else {
+          // TODO: Malformed response received
+          System.println("Malformed data received: " + data);
+        }
       } else {
         // TODO: Malformed response received
         System.println("Malformed data received: " + data);

@@ -26,7 +26,7 @@
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" />
 
-            <text-area id="CityValue" text="" x="center" y="105" width="155" height="50"
+            <text-area id="StationNameValue" text="" x="center" y="105" width="155" height="50"
                 font="Graphics.FONT_XTINY" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
         </layout>
