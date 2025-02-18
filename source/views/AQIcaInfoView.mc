@@ -13,7 +13,7 @@ class AQIcaInfoView extends WatchUi.View {
 
   // Load your resources here
   function onLayout(dc as Dc) as Void {
-    setLayout(Rez.Layouts.MainLayout(dc));
+    setLayout(Rez.Layouts.InfoLayout(dc));
   }
 
   // Called when this View is brought to the foreground. Restore
@@ -30,29 +30,20 @@ class AQIcaInfoView extends WatchUi.View {
         WatchUi.SLIDE_IMMEDIATE
       );
     }
-    
-    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-    dc.clear();
 
-    var infoMessage = "";
-    if (_aqiData.getStatus().hasError()) {
-      infoMessage = "Error: ";
+    // Set the info text area value
+    var infoTextArea = View.findDrawableById("InfoMessageValue") as Text?;
+    if (infoTextArea != null) {
+      var infoMessage = "";
+      if (_aqiData.getStatus().hasError()) {
+        infoMessage = "Error: ";
+      }
+      infoMessage += _aqiData.getStatus().getMessage();
+      infoTextArea.setText(infoMessage);
     }
-    infoMessage += _aqiData.getStatus().getMessage();
 
-    var infoTextArea = new WatchUi.TextArea({
-      :text => infoMessage,
-      :backgroundColor => Graphics.COLOR_BLACK,
-      :color => Graphics.COLOR_WHITE,
-      :font => Graphics.FONT_MEDIUM,
-      :justification => Graphics.TEXT_JUSTIFY_CENTER |
-      Graphics.TEXT_JUSTIFY_VCENTER,
-      :locX => WatchUi.LAYOUT_HALIGN_CENTER,
-      :locY => WatchUi.LAYOUT_VALIGN_CENTER,
-      :width => dc.getWidth() * 0.8,
-      :height => dc.getHeight() * 0.8,
-    });
-    infoTextArea.draw(dc);
+    // Call the parent onUpdate function to redraw the layout
+    View.onUpdate(dc);
   }
 
   // Called when this View is removed from the screen. Save the

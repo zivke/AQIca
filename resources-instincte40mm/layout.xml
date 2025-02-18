@@ -30,5 +30,11 @@
                 font="Graphics.FONT_XTINY" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
         </layout>
+        <layout id="InfoLayout">
+            <drawable id="backdrop" />
+            <text-area id="InfoMessageValue" text="" x="center" y="60" width="95%" height="100"
+                font="Graphics.FONT_XTINY" color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_CENTER" />
+        </layout>
     </layouts>
 </resources>
