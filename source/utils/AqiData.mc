@@ -128,8 +128,8 @@ class AqiData {
     // System.println("Last known location: " + _latitude + "; " + _longitude);
 
     if (_apiToken == null || _apiToken.equals("")) {
-        _status.setCode(Status.API_TOKEN_NOT_FOUND);
-        return;
+      _status.setCode(Status.API_TOKEN_NOT_FOUND);
+      return;
     }
 
     _status.setCode(Status.FINDING_NEARBY_STATIONS);

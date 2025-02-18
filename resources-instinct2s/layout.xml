@@ -5,12 +5,15 @@
     <layouts>
         <layout id="MainLayout">
             <drawable id="backdrop" />
-            <label id="AqiLabel" text="AQI" x="75" y="25" font="Graphics.FONT_LARGE"
+            <label id="AqiLabel" text="AQI" x="90" y="6" font="Graphics.FONT_SMALL"
                 color="Graphics.COLOR_WHITE"
-                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
             <label id="AqiValue" text="N/A" x="135" y="25" font="Graphics.FONT_NUMBER_MEDIUM"
                 color="Graphics.COLOR_BLACK"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="AirPollutionLevelLabel" text="N/A" x="90" y="30" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
 
             <label id="Pm25Label" text="PM 2.5" x="10" y="65" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"

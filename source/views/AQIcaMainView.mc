@@ -31,6 +31,12 @@ class AQIcaMainView extends WatchUi.View {
       }
     }
 
+    // Set the Air Pollution Level label value
+    var aplLabel = View.findDrawableById("AirPollutionLevelLabel") as Text?;
+    if (aplLabel != null) {
+      aplLabel.setText(getAirPollutionLevelLabel(_aqiData.getAqi()));
+    }
+
     // Set the PM 2.5 label value
     var pm25Label = View.findDrawableById("Pm25Value") as Text?;
     if (pm25Label != null) {
@@ -76,4 +82,22 @@ class AQIcaMainView extends WatchUi.View {
   // state of this View here. This includes freeing resources from
   // memory.
   function onHide() as Void {}
+
+  private function getAirPollutionLevelLabel(aqi as Number?) as String {
+    if (aqi == null || aqi < 0) {
+      return "Unknown";
+    } else if (aqi <= 50) {
+      return "Good";
+    } else if (aqi <= 100) {
+      return "Moderate";
+    } else if (aqi <= 150) {
+      return "Sensitive";
+    } else if (aqi <= 200) {
+      return "Unhealthy";
+    } else if (aqi <= 300) {
+      return "V. Unhealthy";
+    } else {
+      return "Hazardous";
+    }
+  }
 }
