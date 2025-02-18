@@ -1,6 +1,9 @@
 # AQIca
 A simple minimalistic widget for Garmin watches that displays the Air Quality Index, PM 2.5 and PM 10 at the last known location.
 
+# Data sources
+The data used in this software is provided by courtesy of [WAQI](https://waqi.info/).
+
 # Requirements
 The widget requires a free API token that can be acquired [here](https://aqicn.org/data-platform/token/) for free.
 
