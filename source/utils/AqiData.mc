@@ -5,7 +5,8 @@ import Toybox.Weather;
 
 class Status {
   enum Code {
-    ERROR_UNKNOWN = -7,
+    ERROR_UNKNOWN = -8,
+    NO_STATIONS_FOUND = -7,
     API_TOKEN_NOT_FOUND = -6,
     POSITION_INVALID = -5,
     POSITION_NOT_AVAILABLE = -4,
@@ -38,6 +39,8 @@ class Status {
 
   function getMessage() as String {
     switch (self._code) {
+      case NO_STATIONS_FOUND:
+        return "There are no active measuring stations in the vicinity";
       case API_TOKEN_NOT_FOUND:
         return "API token cannot be found";
       case POSITION_INVALID:
@@ -230,14 +233,20 @@ class AqiData {
               if (data.size() == 0) {
                 // Increase the box and repeat the request
                 _boxSizeIncrement *= 2;
-                requestHttpDataByPositionBox(
-                  _latitude + _boxSizeIncrement,
-                  _longitude - _boxSizeIncrement,
-                  _latitude - _boxSizeIncrement,
-                  _longitude + _boxSizeIncrement
-                );
+                if (_boxSizeIncrement < 0.5) {
+                  // Repeat the request/response cycle with a larger box
+                  requestHttpDataByPositionBox(
+                    _latitude + _boxSizeIncrement,
+                    _longitude - _boxSizeIncrement,
+                    _latitude - _boxSizeIncrement,
+                    _longitude + _boxSizeIncrement
+                  );
+                } else {
+                  // The box is too large, there is no point in searching any more
+                  _status.setCode(Status.NO_STATIONS_FOUND);
+                }
 
-                return; // Repeat the request/response cycle with a larger box
+                return;
               } else if (data.size() == 1) {
                 // Success - we were lucky and there is only one station in the vicinity
                 // Get the station index, request the data using the index and extract the data
@@ -245,10 +254,10 @@ class AqiData {
 
                 var station = data[0] as Dictionary;
                 if (station.hasKey("uid")) {
+                  // Repeat the request/response cycle for the found measuring station
                   var uid = station.get("uid") as Number;
                   requestHttpDataByStationUid(uid);
-
-                  return; // Repeat the request/response cycle for the found measuring station
+                  return;
                 } else {
                   // TODO: Malformed response
                   System.println("Malformed response received: " + response);
@@ -267,7 +276,8 @@ class AqiData {
                     var latitude = station.get("lat") as Double;
                     var longitude = station.get("lon") as Double;
                     var distance =
-                      (_latitude - latitude).abs() + (_longitude - longitude).abs();
+                      (_latitude - latitude).abs() +
+                      (_longitude - longitude).abs();
 
                     if (station.hasKey("uid")) {
                       var uid = station.get("uid") as Number;
@@ -296,9 +306,10 @@ class AqiData {
                 }
 
                 if (closestUid != null) {
+                  // Repeat the request/response cycle
                   _status.setCode(Status.FETCHING_DATA);
                   requestHttpDataByStationUid(closestUid);
-                  return; // Repeat the request/response cycle
+                  return;
                 } else {
                   _status.setCode(Status.ERROR_UNKNOWN);
                   return;
