@@ -5,8 +5,11 @@ import Toybox.Weather;
 
 class Status {
   enum Code {
-    ERROR_UNKNOWN = -8,
-    NO_STATIONS_FOUND = -7,
+    UNKNOWN_ERROR = -11,
+    INVALID_DATA_RECEIVED = -10,
+    NO_STATIONS_FOUND = -9,
+    API_TOKEN_OVER_QUOTA = -8,
+    API_TOKEN_INVALID = -7,
     API_TOKEN_NOT_FOUND = -6,
     POSITION_INVALID = -5,
     POSITION_NOT_AVAILABLE = -4,
@@ -39,8 +42,14 @@ class Status {
 
   function getMessage() as String {
     switch (self._code) {
+      case INVALID_DATA_RECEIVED:
+        return "Invalid data received";
       case NO_STATIONS_FOUND:
         return "There are no active measuring stations in the vicinity";
+      case API_TOKEN_OVER_QUOTA:
+        return "API token over quota. Please contact support.";
+      case API_TOKEN_INVALID:
+        return "API token not valid";
       case API_TOKEN_NOT_FOUND:
         return "API token cannot be found";
       case POSITION_INVALID:
@@ -71,7 +80,7 @@ class Status {
         if (_code < 0) {
           return "Unknown error";
         } else {
-          return "Unknown";
+          return "Status unknown";
         }
       }
     }
@@ -224,119 +233,163 @@ class AqiData {
   ) as Void {
     if (responseCode == 200) {
       if (response != null && response instanceof Dictionary) {
-        if (response.hasKey("status") && response.get("status").equals("ok")) {
-          //   System.println("Data received: " + response);
+        if (response.hasKey("status")) {
+          if (response.get("status").equals("ok")) {
+            //   System.println("Data received: " + response);
 
-          if (response.hasKey("data")) {
-            if (response.get("data") instanceof Array) {
-              var data = response.get("data") as Array<Dictionary>;
-              if (data.size() == 0) {
-                // Increase the box and repeat the request
-                _boxSizeIncrement *= 2;
-                if (_boxSizeIncrement < 0.5) {
-                  // Repeat the request/response cycle with a larger box
-                  requestHttpDataByPositionBox(
-                    _latitude + _boxSizeIncrement,
-                    _longitude - _boxSizeIncrement,
-                    _latitude - _boxSizeIncrement,
-                    _longitude + _boxSizeIncrement
-                  );
-                } else {
-                  // The box is too large, there is no point in searching any more
-                  _status.setCode(Status.NO_STATIONS_FOUND);
-                }
+            if (response.hasKey("data")) {
+              if (response.get("data") instanceof Array) {
+                var data = response.get("data") as Array<Dictionary>;
+                if (data.size() == 0) {
+                  // Increase the box and repeat the request
+                  _boxSizeIncrement *= 2;
+                  if (_boxSizeIncrement < 0.5) {
+                    // Repeat the request/response cycle with a larger box
+                    requestHttpDataByPositionBox(
+                      _latitude + _boxSizeIncrement,
+                      _longitude - _boxSizeIncrement,
+                      _latitude - _boxSizeIncrement,
+                      _longitude + _boxSizeIncrement
+                    );
+                  } else {
+                    // The box is too large, there is no point in searching any more
+                    _status.setCode(Status.NO_STATIONS_FOUND);
+                  }
 
-                return;
-              } else if (data.size() == 1) {
-                // Success - we were lucky and there is only one station in the vicinity
-                // Get the station index, request the data using the index and extract the data
-                _status.setCode(Status.FETCHING_DATA);
-
-                var station = data[0] as Dictionary;
-                if (station.hasKey("uid")) {
-                  // Repeat the request/response cycle for the found measuring station
-                  var uid = station.get("uid") as Number;
-                  requestHttpDataByStationUid(uid);
                   return;
+                } else if (data.size() == 1) {
+                  // Success - we were lucky and there is only one station in the vicinity
+                  // Get the station index, request the data using the index and extract the data
+                  _status.setCode(Status.FETCHING_DATA);
+
+                  var station = data[0] as Dictionary;
+                  if (station.hasKey("uid")) {
+                    // Repeat the request/response cycle for the found measuring station
+                    var uid = station.get("uid") as Number;
+                    requestHttpDataByStationUid(uid);
+                    return;
+                  } else {
+                    // Malformed response
+                    System.println("Malformed response received: " + response);
+
+                    _status.setCode(Status.INVALID_DATA_RECEIVED);
+                  }
                 } else {
-                  // TODO: Malformed response
-                  System.println("Malformed response received: " + response);
-                }
-              } else {
-                // Multiple stations found in the box
-                // Go through all of the received stations and select the closest one, get its index
-                // and request the data using the index and then extract the data
-                _status.setCode(Status.FINDING_CLOSEST_STATION);
+                  // Multiple stations found in the box
+                  // Go through all of the received stations and select the closest one, get its index
+                  // and request the data using the index and then extract the data
+                  _status.setCode(Status.FINDING_CLOSEST_STATION);
 
-                var closestUid = null;
-                var minDistance = null;
-                for (var i = 0; i < data.size(); i++) {
-                  var station = data[i] as Dictionary;
-                  if (station.hasKey("lat") && station.hasKey("lon")) {
-                    var latitude = station.get("lat") as Double;
-                    var longitude = station.get("lon") as Double;
-                    var distance =
-                      (_latitude - latitude).abs() +
-                      (_longitude - longitude).abs();
+                  var closestUid = null;
+                  var minDistance = null;
+                  for (var i = 0; i < data.size(); i++) {
+                    var station = data[i] as Dictionary;
+                    if (station.hasKey("lat") && station.hasKey("lon")) {
+                      var latitude = station.get("lat") as Double;
+                      var longitude = station.get("lon") as Double;
+                      var distance =
+                        (_latitude - latitude).abs() +
+                        (_longitude - longitude).abs();
 
-                    if (station.hasKey("uid")) {
-                      var uid = station.get("uid") as Number;
-                      if (closestUid == null) {
-                        closestUid = uid;
-                      }
+                      if (station.hasKey("uid")) {
+                        var uid = station.get("uid") as Number;
+                        if (closestUid == null) {
+                          closestUid = uid;
+                        }
 
-                      if (minDistance == null) {
-                        minDistance = distance;
-                      }
+                        if (minDistance == null) {
+                          minDistance = distance;
+                        }
 
-                      if (distance < minDistance) {
-                        minDistance = distance;
-                        closestUid = uid;
+                        if (distance < minDistance) {
+                          minDistance = distance;
+                          closestUid = uid;
+                        }
+                      } else {
+                        // Malformed response
+                        System.println(
+                          "Malformed response received: " + response
+                        );
+
+                        _status.setCode(Status.INVALID_DATA_RECEIVED);
                       }
                     } else {
-                      // TODO: Malformed response
+                      // Malformed response
                       System.println(
                         "Malformed response received: " + response
                       );
+
+                      _status.setCode(Status.INVALID_DATA_RECEIVED);
                     }
+                  }
+
+                  if (closestUid != null) {
+                    // Repeat the request/response cycle
+                    _status.setCode(Status.FETCHING_DATA);
+                    requestHttpDataByStationUid(closestUid);
+                    return;
                   } else {
-                    // TODO: Malformed response
-                    System.println("Malformed response received: " + response);
+                    _status.setCode(Status.UNKNOWN_ERROR);
+                    return;
                   }
                 }
+              } else if (response.get("data") instanceof Dictionary) {
+                // The station has been requested by index and received
+                var data = response.get("data") as Dictionary;
+                extractData(data);
+                _status.setCode(Status.DONE);
+                return;
+              } else {
+                // Malformed response
+                System.println("Malformed response received: " + response);
 
-                if (closestUid != null) {
-                  // Repeat the request/response cycle
-                  _status.setCode(Status.FETCHING_DATA);
-                  requestHttpDataByStationUid(closestUid);
-                  return;
-                } else {
-                  _status.setCode(Status.ERROR_UNKNOWN);
-                  return;
-                }
+                _status.setCode(Status.INVALID_DATA_RECEIVED);
               }
             } else {
-              // The station has been requested by index and received
-              var data = response.get("data") as Dictionary;
-              extractData(data);
-              _status.setCode(Status.DONE);
-              return;
+              // Malformed response
+              System.println("Malformed response received: " + response);
+
+              _status.setCode(Status.INVALID_DATA_RECEIVED);
+            }
+          } else if (response.get("status").equals("error")) {
+            if (response.hasKey("data")) {
+              var message = response.get("data") as String;
+              if (message.equals("Invalid key")) {
+                _status.setCode(Status.API_TOKEN_INVALID);
+              } else if (message.equals("Over quota")) {
+                _status.setCode(Status.API_TOKEN_OVER_QUOTA);
+              } else {
+                _status.setCode(Status.UNKNOWN_ERROR);
+              }
+            } else {
+              // Malformed response
+              System.println("Malformed response received: " + response);
+
+              _status.setCode(Status.INVALID_DATA_RECEIVED);
             }
           } else {
-            // TODO: Malformed response
+            // Malformed response
             System.println("Malformed response received: " + response);
+
+            _status.setCode(Status.INVALID_DATA_RECEIVED);
           }
         } else {
-          // TODO: error response received
-          System.println("Error response received: " + response);
+          // Malformed response
+          System.println("Malformed response received: " + response);
+
+          _status.setCode(Status.INVALID_DATA_RECEIVED);
         }
       } else {
-        // TODO: invalid data received
+        // Invalid data received
         System.println("Invalid response received: " + response);
+
+        _status.setCode(Status.INVALID_DATA_RECEIVED);
       }
     } else {
-      // TODO: responseCode != 200
+      // responseCode != 200
       System.println("Error response code: " + responseCode);
+
+      _status.setCode(Status.INVALID_DATA_RECEIVED);
     }
   }
 
@@ -350,30 +403,40 @@ class AqiData {
             _stationName = city.get("name") as String;
           }
         } else {
-          // TODO: Malformed response received
+          // Malformed response received
           System.println("Malformed data received: " + data);
+
+          _status.setCode(Status.INVALID_DATA_RECEIVED);
         }
       } else {
-        // TODO: Malformed response received
+        // Malformed response received
         System.println("Malformed data received: " + data);
+
+        _status.setCode(Status.INVALID_DATA_RECEIVED);
       }
     } else {
-      // TODO: Malformed response received
+      // Malformed response received
       System.println("Malformed data received: " + data);
+
+      _status.setCode(Status.INVALID_DATA_RECEIVED);
     }
 
     if (data.hasKey("aqi")) {
       _aqi = data.get("aqi") as Number;
     } else {
-      // TODO: Malformed response received
+      // Malformed response received
       System.println("Malformed data received: " + data);
+
+      _status.setCode(Status.INVALID_DATA_RECEIVED);
     }
 
     if (data.hasKey("iaqi")) {
       _iaqi = data.get("iaqi") as Dictionary;
     } else {
-      // TODO: Malformed response
+      // Malformed response
       System.println("Malformed data received: " + data);
+
+      _status.setCode(Status.INVALID_DATA_RECEIVED);
     }
   }
 }
