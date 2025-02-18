@@ -3,7 +3,7 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 
 class AQIcaApp extends Application.AppBase {
-  private var _aqiData;
+  private var _aqiData as AqiData;
 
   function initialize() {
     AppBase.initialize();
