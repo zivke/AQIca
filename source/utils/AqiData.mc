@@ -267,7 +267,7 @@ class AqiData {
                     var latitude = station.get("lat") as Double;
                     var longitude = station.get("lon") as Double;
                     var distance =
-                      _latitude - latitude + _longitude - longitude;
+                      (_latitude - latitude).abs() + (_longitude - longitude).abs();
 
                     if (station.hasKey("uid")) {
                       var uid = station.get("uid") as Number;
