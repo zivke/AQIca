@@ -31,15 +31,20 @@ class AQIcaInfoView extends WatchUi.View {
       );
     }
 
+    // Set the info title
+    var infoTitleLabel = View.findDrawableById("InfoTitle") as Text?;
+    if (infoTitleLabel != null) {
+      var infoTitle = "INFO";
+      if (_aqiData.getStatus().hasError()) {
+        infoTitle = "ERROR";
+      }
+      infoTitleLabel.setText(infoTitle);
+    }
+
     // Set the info text area value
     var infoTextArea = View.findDrawableById("InfoMessageValue") as Text?;
     if (infoTextArea != null) {
-      var infoMessage = "";
-      if (_aqiData.getStatus().hasError()) {
-        infoMessage = "Error: ";
-      }
-      infoMessage += _aqiData.getStatus().getMessage();
-      infoTextArea.setText(infoMessage);
+      infoTextArea.setText(_aqiData.getStatus().getMessage());
     }
 
     // Call the parent onUpdate function to redraw the layout
