@@ -24,7 +24,7 @@ class AQIcaDetailsView extends WatchUi.View {
     dc.clear();
 
     var errorString = new WatchUi.Text({
-      :text => "BLABLABLA",
+      :text => "TODO: Additional details",
       :color => Graphics.COLOR_WHITE,
       :font => Graphics.FONT_SMALL,
       :locX => WatchUi.LAYOUT_HALIGN_CENTER,

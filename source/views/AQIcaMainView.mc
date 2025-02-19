@@ -43,32 +43,14 @@ class AQIcaMainView extends WatchUi.View {
 
     // Set the PM 2.5 label value
     var pm25Label = View.findDrawableById("Pm25Value") as Text?;
-    if (pm25Label != null) {
-      var iaqi = _aqiData.getIaqi();
-      if (iaqi != null) {
-        if (iaqi.hasKey("pm25")) {
-          var pm25 = iaqi.get("pm25") as Dictionary;
-          if (pm25.hasKey("v")) {
-            var pm25Value = pm25.get("v") as Number;
-            pm25Label.setText(pm25Value.format("%d").toString());
-          }
-        }
-      }
+    if (pm25Label != null && _aqiData.getPm25() != null) {
+      pm25Label.setText(_aqiData.getPm25().format("%d").toString());
     }
 
     // Set the PM 10 label value
     var pm10Label = View.findDrawableById("Pm10Value") as Text?;
-    if (pm10Label != null) {
-      var iaqi = _aqiData.getIaqi();
-      if (iaqi != null) {
-        if (iaqi.hasKey("pm10")) {
-          var pm10 = iaqi.get("pm10") as Dictionary;
-          if (pm10.hasKey("v")) {
-            var pm10Value = pm10.get("v") as Number;
-            pm10Label.setText(pm10Value.format("%d").toString());
-          }
-        }
-      }
+    if (pm10Label != null && _aqiData.getPm10() != null) {
+      pm10Label.setText(_aqiData.getPm10().format("%d").toString());
     }
 
     // Set the City label value

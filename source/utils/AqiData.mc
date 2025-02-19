@@ -93,9 +93,20 @@ class AqiData {
   private var _latitude as Double?;
   private var _longitude as Double?;
 
+  private var _attributions as String = "N/A";
   private var _stationName as String = "N/A";
   private var _aqi as Number?;
-  private var _iaqi as Dictionary?;
+  private var _pm25 as Number?;
+  private var _pm10 as Number?;
+  private var _co as Float?;
+  private var _no2 as Float?;
+  private var _o3 as Float?;
+  private var _so2 as Float?;
+  private var _temperature as Number?;
+  private var _humidity as Number?;
+  private var _pressure as Number?;
+  private var _wind as Float?;
+  private var _dewPoint as Number?;
 
   private var _boxSizeIncrement as Double = 0.02d;
 
@@ -162,6 +173,10 @@ class AqiData {
     return _status;
   }
 
+  function getAttributions() as String {
+    return _attributions;
+  }
+
   function getStationName() as String {
     return _stationName;
   }
@@ -170,8 +185,48 @@ class AqiData {
     return _aqi;
   }
 
-  function getIaqi() as Dictionary? {
-    return _iaqi;
+  function getPm25() as Number? {
+    return _pm25;
+  }
+
+  function getPm10() as Number? {
+    return _pm10;
+  }
+
+  function getCo() as Float? {
+    return _co;
+  }
+
+  function getNo2() as Float? {
+    return _no2;
+  }
+
+  function getO3() as Float? {
+    return _o3;
+  }
+
+  function getSo2() as Float? {
+    return _so2;
+  }
+
+  function getTemperature() as Number? {
+    return _temperature;
+  }
+
+  function getHumidity() as Number? {
+    return _humidity;
+  }
+
+  function getPressure() as Number? {
+    return _pressure;
+  }
+
+  function getWind() as Float? {
+    return _wind;
+  }
+
+  function getDewPoint() as Number? {
+    return _dewPoint;
   }
 
   private function reset() {
@@ -183,7 +238,17 @@ class AqiData {
 
     _stationName = "N/A";
     _aqi = null;
-    _iaqi = null;
+    _pm25 = null;
+    _pm10 = null;
+    _co = null;
+    _no2 = null;
+    _o3 = null;
+    _so2 = null;
+    _temperature = null;
+    _humidity = null;
+    _pressure = null;
+    _wind = null;
+    _dewPoint = null;
 
     _boxSizeIncrement = 0.02d;
 
@@ -235,7 +300,7 @@ class AqiData {
       if (response != null && response instanceof Dictionary) {
         if (response.hasKey("status")) {
           if (response.get("status").equals("ok")) {
-            //   System.println("Data received: " + response);
+            System.println("Data received: " + response);
 
             if (response.hasKey("data")) {
               if (response.get("data") instanceof Array) {
@@ -394,6 +459,13 @@ class AqiData {
   }
 
   private function extractData(data as Dictionary) {
+    if (data.hasKey("attributions")) {
+      var attributions = data.get("attributions") as Array;
+      if (attributions[0].hasKey("name")) {
+        _attributions = attributions[0].get("name") as String;
+      }
+    }
+
     if (data.hasKey("city")) {
       var city = data.get("city") as Dictionary;
       if (city.hasKey("location")) {
@@ -406,14 +478,10 @@ class AqiData {
       } else {
         // Malformed response received
         System.println("Malformed data received: " + data);
-
-        _status.setCode(Status.INVALID_DATA_RECEIVED);
       }
     } else {
       // Malformed response received
       System.println("Malformed data received: " + data);
-
-      _status.setCode(Status.INVALID_DATA_RECEIVED);
     }
 
     if (data.hasKey("aqi")) {
@@ -426,12 +494,77 @@ class AqiData {
     }
 
     if (data.hasKey("iaqi")) {
-      _iaqi = data.get("iaqi") as Dictionary;
+      var iaqi = data.get("iaqi") as Dictionary;
+      var tmp;
+      if (iaqi.hasKey("pm25")) {
+        tmp = iaqi.get("pm25") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _pm25 = tmp.get("v") as Number?;
+        }
+      }
+      if (iaqi.hasKey("pm10")) {
+        tmp = iaqi.get("pm10") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _pm10 = tmp.get("v") as Number?;
+        }
+      }
+      if (iaqi.hasKey("co")) {
+        tmp = iaqi.get("co") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _co = tmp.get("v") as Float?;
+        }
+      }
+      if (iaqi.hasKey("no2")) {
+        tmp = iaqi.get("no2") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _no2 = tmp.get("v") as Float?;
+        }
+      }
+      if (iaqi.hasKey("o3")) {
+        tmp = iaqi.get("o3") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _o3 = tmp.get("v") as Float?;
+        }
+      }
+      if (iaqi.hasKey("so2")) {
+        tmp = iaqi.get("so2") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _so2 = tmp.get("v") as Float?;
+        }
+      }
+      if (iaqi.hasKey("t")) {
+        tmp = iaqi.get("t") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _temperature = tmp.get("v") as Number?;
+        }
+      }
+      if (iaqi.hasKey("h")) {
+        tmp = iaqi.get("h") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _humidity = tmp.get("v") as Number?;
+        }
+      }
+      if (iaqi.hasKey("p")) {
+        tmp = iaqi.get("p") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _pressure = tmp.get("v") as Number?;
+        }
+      }
+      if (iaqi.hasKey("w")) {
+        tmp = iaqi.get("w") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _wind = tmp.get("v") as Float?;
+        }
+      }
+      if (iaqi.hasKey("dew")) {
+        tmp = iaqi.get("dew") as Dictionary?;
+        if (tmp != null && tmp.hasKey("v")) {
+          _dewPoint = tmp.get("v") as Number?;
+        }
+      }
     } else {
       // Malformed response
       System.println("Malformed data received: " + data);
-
-      _status.setCode(Status.INVALID_DATA_RECEIVED);
     }
   }
 }

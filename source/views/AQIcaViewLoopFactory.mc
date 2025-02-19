@@ -1,13 +1,19 @@
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-class AQIcaViewLoopFactory extends ViewLoopFactory {
+class AQIcaViewLoopFactory extends WatchUi.ViewLoopFactory {
   private var _aqiData as AqiData;
   private var _views as Array<View>;
 
   function initialize(aqiData as AqiData) {
     self._aqiData = aqiData;
-    self._views = [new AQIcaMainView(_aqiData), new AQIcaDetailsView(_aqiData)];
+
+    self._views = [
+      new AQIcaMainView(_aqiData),
+      new AQIcaDetailsView(_aqiData),
+      new AQIcaInfoView("STATION", _aqiData.getStationName()),
+      new AQIcaInfoView("SOURCE", _aqiData.getAttributions()),
+    ];
 
     ViewLoopFactory.initialize();
   }
