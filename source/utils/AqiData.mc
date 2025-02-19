@@ -398,15 +398,10 @@ class AqiData {
       var city = data.get("city") as Dictionary;
       if (city.hasKey("location")) {
         _stationName = city.get("location") as String;
-        if (_stationName.equals("")) {
-          if (city.hasKey("name")) {
-            _stationName = city.get("name") as String;
-          }
-        } else {
-          // Malformed response received
-          System.println("Malformed data received: " + data);
-
-          _status.setCode(Status.INVALID_DATA_RECEIVED);
+        if (city.hasKey("name")) {
+          var name = city.get("name") as String;
+          _stationName =
+            name.length() > _stationName.length() ? name : _stationName;
         }
       } else {
         // Malformed response received
