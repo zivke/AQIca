@@ -11,7 +11,9 @@ class AQIcaDetailsView extends WatchUi.View {
   }
 
   // Load your resources here
-  function onLayout(dc as Dc) as Void {}
+  function onLayout(dc as Dc) as Void {
+    setLayout(Rez.Layouts.DetailsLayout(dc));
+  }
 
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
@@ -20,17 +22,46 @@ class AQIcaDetailsView extends WatchUi.View {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
-    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_DK_GRAY);
-    dc.clear();
+    // Set the CO label value
+    var coLabel = View.findDrawableById("CoValue") as Text?;
+    if (coLabel != null) {
+      if (_aqiData.getCo() != null) {
+        coLabel.setText(_aqiData.getCo().format("%.1f").toString());
+      }
+    }
 
-    var errorString = new WatchUi.Text({
-      :text => "TODO: Additional details",
-      :color => Graphics.COLOR_WHITE,
-      :font => Graphics.FONT_SMALL,
-      :locX => WatchUi.LAYOUT_HALIGN_CENTER,
-      :locY => WatchUi.LAYOUT_VALIGN_CENTER,
-    });
-    errorString.draw(dc);
+    // Set the dominant pollutant label value
+    var dominantPollutantLabel =
+      View.findDrawableById("DominantPollutantValue") as Text?;
+    if (dominantPollutantLabel != null) {
+      dominantPollutantLabel.setText(_aqiData.getDominantPollutant());
+    }
+
+    // Set the NO2 label value
+    var no2Label = View.findDrawableById("No2Value") as Text?;
+    if (no2Label != null) {
+      if (_aqiData.getNo2() != null) {
+        no2Label.setText(_aqiData.getNo2().format("%.1f").toString());
+      }
+    }
+
+    // Set the O3 label value
+    var o3Label = View.findDrawableById("O3Value") as Text?;
+    if (o3Label != null) {
+      if (_aqiData.getNo2() != null) {
+        o3Label.setText(_aqiData.getO3().format("%.1f").toString());
+      }
+    }
+
+    // Set the SO2 label value
+    var so2Label = View.findDrawableById("So2Value") as Text?;
+    if (so2Label != null) {
+      if (_aqiData.getSo2() != null) {
+        so2Label.setText(_aqiData.getSo2().format("%.1f").toString());
+      }
+    }
+
+    View.onUpdate(dc);
   }
 
   // Called when this View is removed from the screen. Save the

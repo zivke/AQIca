@@ -43,5 +43,39 @@
                 font="Graphics.FONT_XTINY" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER" />
         </layout>
+        <layout id="DetailsLayout">
+            <drawable id="backdrop" />
+            <label id="DominantPollutantLabel" text="Dominant\npollutant" x="95" y="5"
+                font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="DominantPollutantValue" text="N/A" x="135" y="25" font="Graphics.FONT_MEDIUM"
+                color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="CoLabel" text="CO" x="45%" y="60" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="CoValue" text="N/A" x="55%" y="60" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="No2Label" text="NO2" x="45%" y="85" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="No2Value" text="N/A" x="55%" y="85" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="O3Label" text="O3" x="45%" y="110" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="O3Value" text="N/A" x="55%" y="110" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="So2Label" text="SO2" x="45%" y="135" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="So2Value" text="N/A" x="55%" y="135" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+        </layout>
     </layouts>
 </resources>

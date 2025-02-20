@@ -96,6 +96,7 @@ class AqiData {
   private var _attributions as String = "N/A";
   private var _stationName as String = "N/A";
   private var _aqi as Number?;
+  private var _dominantPollutant as String = "N/A";
   private var _pm25 as Number?;
   private var _pm10 as Number?;
   private var _co as Float?;
@@ -185,6 +186,10 @@ class AqiData {
     return _aqi;
   }
 
+  function getDominantPollutant() as String {
+    return _dominantPollutant;
+  }
+
   function getPm25() as Number? {
     return _pm25;
   }
@@ -238,6 +243,7 @@ class AqiData {
 
     _stationName = "N/A";
     _aqi = null;
+    _dominantPollutant = "N/A";
     _pm25 = null;
     _pm10 = null;
     _co = null;
@@ -491,6 +497,32 @@ class AqiData {
       System.println("Malformed data received: " + data);
 
       _status.setCode(Status.INVALID_DATA_RECEIVED);
+    }
+
+    if (data.hasKey("dominentpol")) {
+      switch (data.get("dominentpol") as String) {
+        case "pm25":
+          _dominantPollutant = "PM 2.5";
+          break;
+        case "pm10":
+          _dominantPollutant = "PM 10";
+          break;
+        case "co":
+          _dominantPollutant = "CO";
+          break;
+        case "no2":
+          _dominantPollutant = "NO2";
+          break;
+        case "o3":
+          _dominantPollutant = "O3";
+          break;
+        case "so2":
+          _dominantPollutant = "SO2";
+          break;
+        default:
+          _dominantPollutant = "N/A";
+          break;
+      }
     }
 
     if (data.hasKey("iaqi")) {
