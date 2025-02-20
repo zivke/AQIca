@@ -1,12 +1,15 @@
-import Toybox.WatchUi;
 import Toybox.Graphics;
+import Toybox.Lang;
 import Toybox.System;
+import Toybox.WatchUi;
 
 class AQIcaInfoView extends WatchUi.View {
-  private var _aqiData as AqiData;
+  private var _title as String?;
+  private var _message as String;
 
-  function initialize(aqiData as AqiData) {
-    self._aqiData = aqiData;
+  function initialize(title as String?, message as String) {
+    self._title = title;
+    self._message = message;
 
     View.initialize();
   }
@@ -23,28 +26,16 @@ class AQIcaInfoView extends WatchUi.View {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
-    if (_aqiData.getStatus().getCode() == Status.DONE) {
-      WatchUi.switchToView(
-        new AQIcaMainView(_aqiData),
-        null,
-        WatchUi.SLIDE_IMMEDIATE
-      );
-    }
-
     // Set the info title
-    var infoTitleLabel = View.findDrawableById("InfoTitle") as Text?;
-    if (infoTitleLabel != null) {
-      var infoTitle = "INFO";
-      if (_aqiData.getStatus().hasError()) {
-        infoTitle = "ERROR";
-      }
-      infoTitleLabel.setText(infoTitle);
+    var infoTitleTextArea = View.findDrawableById("InfoTitle") as TextArea?;
+    if (infoTitleTextArea != null && _title != null) {
+      infoTitleTextArea.setText(_title);
     }
 
     // Set the info text area value
-    var infoTextArea = View.findDrawableById("InfoMessageValue") as Text?;
+    var infoTextArea = View.findDrawableById("InfoMessageValue") as TextArea?;
     if (infoTextArea != null) {
-      infoTextArea.setText(_aqiData.getStatus().getMessage());
+      infoTextArea.setText(_message);
     }
 
     // Call the parent onUpdate function to redraw the layout

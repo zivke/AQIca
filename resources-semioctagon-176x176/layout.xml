@@ -35,12 +35,47 @@
         </layout>
         <layout id="InfoLayout">
             <drawable id="backdrop" />
-            <label id="InfoTitle" text="" x="95" y="30" font="Graphics.FONT_MEDIUM"
+            <text-area id="InfoTitle" text="" x="20" y="10" width="80" height="55"
+                font="Graphics.FONT_TINY"
                 color="Graphics.COLOR_WHITE"
-                justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" />
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
             <text-area id="InfoMessageValue" text="" x="center" y="75" width="95%" height="100"
                 font="Graphics.FONT_XTINY" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER" />
+        </layout>
+        <layout id="DetailsLayout">
+            <drawable id="backdrop" />
+            <label id="DominantPollutantLabel" text="Dominant\npollutant" x="95" y="10"
+                font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="DominantPollutantValue" text="N/A" x="143" y="30" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="CoLabel" text="CO" x="45%" y="75" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="CoValue" text="N/A" x="55%" y="75" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="No2Label" text="NO2" x="45%" y="100" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="No2Value" text="N/A" x="55%" y="100" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="O3Label" text="O3" x="45%" y="125" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="O3Value" text="N/A" x="55%" y="125" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="So2Label" text="SO2" x="45%" y="150" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="So2Value" text="N/A" x="55%" y="150" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
         </layout>
     </layouts>
 </resources>
