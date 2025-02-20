@@ -27,9 +27,9 @@ class AQIcaInfoView extends WatchUi.View {
   // Update the view
   function onUpdate(dc as Dc) as Void {
     // Set the info title
-    var infoTitleLabel = View.findDrawableById("InfoTitle") as Text?;
-    if (infoTitleLabel != null && _title != null) {
-      infoTitleLabel.setText(_title);
+    var infoTitleTextArea = View.findDrawableById("InfoTitle") as TextArea?;
+    if (infoTitleTextArea != null && _title != null) {
+      infoTitleTextArea.setText(_title);
     }
 
     // Set the info text area value

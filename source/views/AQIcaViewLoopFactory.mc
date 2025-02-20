@@ -11,8 +11,8 @@ class AQIcaViewLoopFactory extends WatchUi.ViewLoopFactory {
     self._views = [
       new AQIcaMainView(_aqiData),
       new AQIcaDetailsView(_aqiData),
-      new AQIcaInfoView("STATION", _aqiData.getStationName()),
-      new AQIcaInfoView("SOURCE", _aqiData.getAttributions()),
+      new AQIcaInfoView("Measuring\nstation:", _aqiData.getStationName()),
+      new AQIcaInfoView("Data\nsource:", _aqiData.getAttributions()),
     ];
 
     ViewLoopFactory.initialize();

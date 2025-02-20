@@ -35,10 +35,11 @@
         </layout>
         <layout id="InfoLayout">
             <drawable id="backdrop" />
-            <label id="InfoTitle" text="" x="95" y="30" font="Graphics.FONT_MEDIUM"
+            <text-area id="InfoTitle" text="" x="15" y="5" width="80" height="55"
+                font="Graphics.FONT_SMALL"
                 color="Graphics.COLOR_WHITE"
-                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
-            <text-area id="InfoMessageValue" text="" x="center" y="60" width="95%" height="100"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <text-area id="InfoMessageValue" text="" x="center" y="75" width="95%" height="100"
                 font="Graphics.FONT_XTINY" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER" />
         </layout>
