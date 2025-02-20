@@ -29,8 +29,11 @@
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" />
 
-            <text-area id="StationNameValue" text="" x="center" y="105" width="155" height="50"
+            <label id="DistanceLabel" text="Distance to station:" x="center" y="120"
                 font="Graphics.FONT_XTINY" color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="DistanceValue" text="N/A" x="center" y="145"
+                font="Graphics.FONT_SMALL" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
         </layout>
         <layout id="InfoLayout">
@@ -49,7 +52,7 @@
                 font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_RIGHT" />
-            <label id="DominantPollutantValue" text="N/A" x="135" y="25" font="Graphics.FONT_MEDIUM"
+            <label id="DominantPollutantValue" text="N/A" x="135" y="25" font="Graphics.FONT_SMALL"
                 color="Graphics.COLOR_BLACK"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
             <label id="CoLabel" text="CO" x="45%" y="60" font="Graphics.FONT_XTINY"

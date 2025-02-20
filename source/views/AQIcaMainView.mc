@@ -53,11 +53,16 @@ class AQIcaMainView extends WatchUi.View {
       pm10Label.setText(_aqiData.getPm10().format("%d").toString());
     }
 
-    // Set the City label value
-    var stationNameTextArea =
-      View.findDrawableById("StationNameValue") as Text?;
-    if (stationNameTextArea != null) {
-      stationNameTextArea.setText(_aqiData.getStationName());
+    // Set the station distance label value
+    var distanceLabel = View.findDrawableById("DistanceValue") as Text?;
+    var distanceKm = _aqiData.getStationDistanceKm();
+    if (distanceLabel != null && distanceKm != null) {
+      if (System.getDeviceSettings().temperatureUnits == System.UNIT_STATUTE) {
+        var distanceMi = distanceKm / 1.609344;
+        distanceLabel.setText(distanceMi.format("%.1f").toString() + "mi");
+      } else {
+        distanceLabel.setText(distanceKm.format("%.1f").toString() + "km");
+      }
     }
 
     // Call the parent onUpdate function to redraw the layout

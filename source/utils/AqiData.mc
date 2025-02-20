@@ -1,6 +1,7 @@
 import Toybox.Application;
 import Toybox.Communications;
 import Toybox.Lang;
+import Toybox.Math;
 import Toybox.Weather;
 
 class Status {
@@ -95,6 +96,7 @@ class AqiData {
 
   private var _attributions as String = "N/A";
   private var _stationName as String = "N/A";
+  private var _stationDistanceKm as Double?;
   private var _aqi as Number?;
   private var _dominantPollutant as String = "N/A";
   private var _pm25 as Number?;
@@ -182,6 +184,10 @@ class AqiData {
     return _stationName;
   }
 
+  function getStationDistanceKm() as Double? {
+    return _stationDistanceKm;
+  }
+
   function getAqi() as Number? {
     return _aqi;
   }
@@ -242,6 +248,7 @@ class AqiData {
     _longitude = lastKnownLocation[1] as Double;
 
     _stationName = "N/A";
+    _stationDistanceKm = null;
     _aqi = null;
     _dominantPollutant = "N/A";
     _pm25 = null;
@@ -485,6 +492,25 @@ class AqiData {
         // Malformed response received
         System.println("Malformed data received: " + data);
       }
+
+      if (city.hasKey("geo")) {
+        var geo = city.get("geo") as Array<Double>?;
+        if (geo != null && geo.size() == 2) {
+          var stationLatitude = geo[0];
+          var stationLongitude = geo[1];
+
+          if (stationLatitude == null || stationLongitude == null) {
+            _stationDistanceKm = null;
+          } else {
+            _stationDistanceKm = distance(
+              _latitude,
+              _longitude,
+              stationLatitude,
+              stationLongitude
+            );
+          }
+        }
+      }
     } else {
       // Malformed response received
       System.println("Malformed data received: " + data);
@@ -598,5 +624,24 @@ class AqiData {
       // Malformed response
       System.println("Malformed data received: " + data);
     }
+  }
+
+  function distance(
+    latitude1 as Double,
+    longitude1 as Double,
+    latitude2 as Double,
+    longitude2 as Double
+  ) as Double {
+    var dx, dy, dz;
+    longitude1 -= longitude2;
+    longitude1 = Math.toRadians(longitude1);
+    latitude1 = Math.toRadians(latitude1);
+    latitude2 = Math.toRadians(latitude2);
+
+    dz = Math.sin(latitude1) - Math.sin(latitude2);
+    dx = Math.cos(longitude1) * Math.cos(latitude1) - Math.cos(latitude2);
+    dy = Math.sin(longitude1) * Math.cos(latitude1);
+
+    return Math.asin(Math.sqrt(dx * dx + dy * dy + dz * dz) / 2) * 2 * 6371;
   }
 }
