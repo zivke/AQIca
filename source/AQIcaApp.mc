@@ -22,8 +22,8 @@ class AQIcaApp extends Application.AppBase {
   }
 
   // Return the initial view of your application here
-  function getInitialView() as Array<Views or InputDelegates>? {
-    return [new AQIcaLoadingView(_aqiData)] as Array<Views or InputDelegates>;
+  function getInitialView() {
+    return [new AQIcaLoadingView(_aqiData)];
   }
 }
 
