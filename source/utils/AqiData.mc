@@ -499,16 +499,14 @@ class AqiData {
           var stationLatitude = geo[0];
           var stationLongitude = geo[1];
 
-          if (stationLatitude == null || stationLongitude == null) {
-            _stationDistanceKm = null;
-          } else {
-            _stationDistanceKm = distance(
-              _latitude,
-              _longitude,
-              stationLatitude,
-              stationLongitude
-            );
-          }
+          _stationDistanceKm = distance(
+            _latitude,
+            _longitude,
+            stationLatitude,
+            stationLongitude
+          );
+        } else {
+          _stationDistanceKm = null;
         }
       }
     } else {
