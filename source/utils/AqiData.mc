@@ -313,7 +313,7 @@ class AqiData {
       if (response != null && response instanceof Dictionary) {
         if (response.hasKey("status")) {
           if (response.get("status").equals("ok")) {
-            System.println("Data received: " + response);
+            // System.println("Data received: " + response);
 
             if (response.hasKey("data")) {
               if (response.get("data") instanceof Array) {
