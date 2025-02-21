@@ -3,11 +3,9 @@ import Toybox.WatchUi;
 
 class AQIcaLoadingView extends WatchUi.View {
   private var _aqiData as AqiData;
-  // private var _viewLoop as ViewLoop;
 
   function initialize(aqiData as AqiData) {
     self._aqiData = aqiData;
-    // self._viewLoop = new ViewLoop(new AQIcaViewLoopFactory(_aqiData), null);
 
     View.initialize();
   }

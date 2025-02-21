@@ -23,10 +23,6 @@ class AQIcaMainView extends WatchUi.View {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
-    if (_aqiData.getStatus().getCode() != Status.DONE) {
-      return;
-    }
-
     // Set the AQI label value
     var aqiLabel = View.findDrawableById("AqiValue") as Text?;
     if (aqiLabel != null) {
