@@ -2,6 +2,11 @@
     <drawable-list id="backdrop" background="Graphics.COLOR_BLACK">
         <shape type="circle" x="138" y="25" radius="30" color="Graphics.COLOR_WHITE" />
     </drawable-list>
+    <drawable-list id="backdropInfo" background="Graphics.COLOR_BLACK">
+        <shape type="circle" x="138" y="25" radius="30" color="Graphics.COLOR_WHITE" />
+        <bitmap id="InfoIcon" filename="../resources/drawables/Info-10.svg" x="120" y="8"
+            scaleX="7%" scaleRelativeTo="image" />
+    </drawable-list>
     <layouts>
         <layout id="MainLayout">
             <drawable id="backdrop" />
@@ -37,7 +42,7 @@
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
         </layout>
         <layout id="InfoLayout">
-            <drawable id="backdrop" />
+            <drawable id="backdropInfo" />
             <text-area id="InfoTitle" text="" x="15" y="5" width="80" height="55"
                 font="Graphics.FONT_SMALL"
                 color="Graphics.COLOR_WHITE"
