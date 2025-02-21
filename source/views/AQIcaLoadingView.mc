@@ -3,6 +3,7 @@ import Toybox.WatchUi;
 
 class AQIcaLoadingView extends WatchUi.View {
   private var _aqiData as AqiData;
+  private var _viewLoop as ViewLoop?;
 
   function initialize(aqiData as AqiData) {
     self._aqiData = aqiData;
@@ -23,10 +24,10 @@ class AQIcaLoadingView extends WatchUi.View {
   // Update the view
   function onUpdate(dc as Dc) as Void {
     if (_aqiData.getStatus().getCode() == Status.DONE) {
-      var viewLoop = new ViewLoop(new AQIcaViewLoopFactory(_aqiData), null);
+      _viewLoop = new ViewLoop(new AQIcaViewLoopFactory(_aqiData), null);
       WatchUi.switchToView(
-        viewLoop,
-        new ViewLoopDelegate(viewLoop),
+        _viewLoop,
+        new ViewLoopDelegate(_viewLoop),
         WatchUi.SLIDE_IMMEDIATE
       );
     } else {
