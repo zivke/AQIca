@@ -78,7 +78,7 @@ class AQIcaBaseView extends WatchUi.View {
       tmpY += _spacingY;
     }
 
-    _timer.start(method(:erasePageIndicator), 500, false);
+    _timer.start(method(:hidePageIndicator), 500, false);
   }
 
   // Called when this View is removed from the screen. Save the
@@ -88,7 +88,7 @@ class AQIcaBaseView extends WatchUi.View {
     _timer.stop();
   }
 
-  function erasePageIndicator() as Void {
+  function hidePageIndicator() as Void {
     _showPageIndicator = false;
     WatchUi.requestUpdate();
   }
