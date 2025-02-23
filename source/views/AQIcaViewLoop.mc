@@ -12,11 +12,7 @@ class AQIcaViewLoop {
   }
 
   public function show() {
-    WatchUi.switchToView(
-      _views[_index],
-      _delegate,
-      WatchUi.SLIDE_IMMEDIATE
-    );
+    WatchUi.switchToView(_views[_index], _delegate, WatchUi.SLIDE_IMMEDIATE);
   }
 
   public function nextView() {

@@ -3,15 +3,20 @@ import Toybox.Lang;
 import Toybox.System;
 import Toybox.WatchUi;
 
-class AQIcaInfoView extends WatchUi.View {
+class AQIcaInfoView extends AQIcaBaseView {
   private var _title as String?;
   private var _message as String;
 
-  function initialize(title as String?, message as String) {
+  function initialize(
+    title as String?,
+    message as String,
+    index as Number?,
+    totalPages as Number?
+  ) {
     self._title = title;
     self._message = message;
 
-    View.initialize();
+    AQIcaBaseView.initialize(index, totalPages);
   }
 
   // Load your resources here
@@ -39,7 +44,7 @@ class AQIcaInfoView extends WatchUi.View {
     }
 
     // Call the parent onUpdate function to redraw the layout
-    View.onUpdate(dc);
+    AQIcaBaseView.onUpdate(dc);
   }
 
   // Called when this View is removed from the screen. Save the

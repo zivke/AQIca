@@ -24,13 +24,18 @@ class AQIcaLoadingView extends WatchUi.View {
   // Update the view
   function onUpdate(dc as Dc) as Void {
     if (_aqiData.getStatus().getCode() == Status.DONE) {
-        _viewLoop = new AQIcaViewLoop([
-          new AQIcaMainView(_aqiData),
-          new AQIcaDetailsView(_aqiData),
-          new AQIcaInfoView("Measuring\nstation:", _aqiData.getStationName()),
-          new AQIcaInfoView("Data\nsource:", _aqiData.getAttributions()),
-        ]);
-        _viewLoop.show();
+      _viewLoop = new AQIcaViewLoop([
+        new AQIcaMainView(_aqiData, 0, 4),
+        new AQIcaDetailsView(_aqiData, 1, 4),
+        new AQIcaInfoView(
+          "Measuring\nstation:",
+          _aqiData.getStationName(),
+          2,
+          4
+        ),
+        new AQIcaInfoView("Data\nsource:", _aqiData.getAttributions(), 3, 4),
+      ]);
+      _viewLoop.show();
     } else {
       var title;
       if (_aqiData.getStatus().hasError()) {
