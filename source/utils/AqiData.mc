@@ -265,7 +265,7 @@ class AqiData {
 
     _boxSizeIncrement = 0.02d;
 
-    _apiToken = Properties.getValue("ApiKey") as String?;
+    _apiToken = Application.Properties.getValue("ApiKey") as String?;
   }
 
   private function requestHttpDataByPositionBox(
@@ -302,7 +302,7 @@ class AqiData {
       :method => Communications.HTTP_REQUEST_METHOD_GET,
       :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON,
     };
-    Communications.makeWebRequest(url, {}, options, method(:onHttpResponse));
+    Communications.makeWebRequest(url, null, options, method(:onHttpResponse));
   }
 
   function onHttpResponse(
