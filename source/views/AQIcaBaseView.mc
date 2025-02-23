@@ -78,6 +78,7 @@ class AQIcaBaseView extends WatchUi.View {
       tmpY += _spacingY;
     }
 
+    _timer.stop();
     _timer.start(method(:hidePageIndicator), 500, false);
   }
 
