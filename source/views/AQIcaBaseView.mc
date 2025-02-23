@@ -1,12 +1,30 @@
 import Toybox.Graphics;
 import Toybox.Lang;
+import Toybox.Math;
+import Toybox.System;
 import Toybox.Timer;
 import Toybox.WatchUi;
 
 class AQIcaBaseView extends WatchUi.View {
+  // Screen size
+  private var _screenWidth as Float =
+    System.getDeviceSettings().screenWidth.toFloat();
+  private var _screenHeight as Float =
+    System.getDeviceSettings().screenHeight.toFloat();
+
+  // Page indicator properties
   private var _index as Number?;
   private var _totalPages as Number?;
   private var _showPageIndicator = true;
+
+  private var _x as Number = Math.ceil(_screenWidth / 20).toNumber();
+  private var _y as Number = Math.ceil(_screenHeight / 3.25).toNumber();
+  private var _spacingY as Number = Math.round(_screenHeight / 8).toNumber();
+  private var _outerRadius as Number = Math.round(_screenWidth / 31).toNumber();
+  private var _innerRadius as Number = Math.round(_screenWidth / 39).toNumber();
+  private var _borderWidth as Number = Math.round(_screenWidth / 78).toNumber();
+  private var _foreground_color as Number = Graphics.COLOR_WHITE;
+  private var _background_color as Number = Graphics.COLOR_BLACK;
 
   private var _timer as Timer.Timer;
 
@@ -41,34 +59,26 @@ class AQIcaBaseView extends WatchUi.View {
       return;
     }
 
-    _timer.start(method(:erasePageIndicator), 500, false);
-
-    var x = 10;
-    var y = 55;
-    var spacingY = 20;
-    var outer_radius = 5;
-    var inner_radius = 4;
-    var border_width = 2;
-    var foreground_color = Graphics.COLOR_WHITE;
-    var background_color = Graphics.COLOR_BLACK;
-
+    var tmpY = _y;
     for (var i = 0; i < _totalPages; i++) {
       // Border
-      dc.setColor(background_color, Graphics.COLOR_TRANSPARENT);
-      dc.fillCircle(x, y, outer_radius + border_width);
+      dc.setColor(_background_color, Graphics.COLOR_TRANSPARENT);
+      dc.fillCircle(_x, tmpY, _outerRadius + _borderWidth);
 
       // Outer fill
-      dc.setColor(foreground_color, Graphics.COLOR_TRANSPARENT);
-      dc.fillCircle(x, y, outer_radius);
+      dc.setColor(_foreground_color, Graphics.COLOR_TRANSPARENT);
+      dc.fillCircle(_x, tmpY, _outerRadius);
 
       if (i != _index) {
         // Inner fill
-        dc.setColor(background_color, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(x, y, inner_radius);
+        dc.setColor(_background_color, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(_x, tmpY, _innerRadius);
       }
 
-      y += spacingY;
+      tmpY += _spacingY;
     }
+
+    _timer.start(method(:erasePageIndicator), 500, false);
   }
 
   // Called when this View is removed from the screen. Save the
