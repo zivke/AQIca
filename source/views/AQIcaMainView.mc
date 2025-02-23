@@ -2,13 +2,17 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-class AQIcaMainView extends WatchUi.View {
+class AQIcaMainView extends AQIcaBaseView {
   private var _aqiData as AqiData;
 
-  function initialize(aqiData as AqiData) {
+  function initialize(
+    aqiData as AqiData,
+    index as Number?,
+    totalPages as Number?
+  ) {
     self._aqiData = aqiData;
 
-    View.initialize();
+    AQIcaBaseView.initialize(index, totalPages);
   }
 
   // Load your resources here
@@ -62,7 +66,7 @@ class AQIcaMainView extends WatchUi.View {
     }
 
     // Call the parent onUpdate function to redraw the layout
-    View.onUpdate(dc);
+    AQIcaBaseView.onUpdate(dc);
   }
 
   // Called when this View is removed from the screen. Save the
