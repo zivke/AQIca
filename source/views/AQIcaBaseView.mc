@@ -2,7 +2,6 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.Math;
 import Toybox.System;
-import Toybox.Timer;
 import Toybox.WatchUi;
 
 class AQIcaBaseView extends WatchUi.View {
@@ -15,7 +14,7 @@ class AQIcaBaseView extends WatchUi.View {
   // Page indicator properties
   private var _index as Number?;
   private var _totalPages as Number?;
-  private var _showPageIndicator = true;
+  private var _currentSystemTimerMs as Number = 0;
 
   private var _x as Number = Math.ceil(_screenWidth / 20).toNumber();
   private var _y as Number = Math.ceil(_screenHeight / 3.25).toNumber();
@@ -26,15 +25,11 @@ class AQIcaBaseView extends WatchUi.View {
   private var _foreground_color as Number = Graphics.COLOR_WHITE;
   private var _background_color as Number = Graphics.COLOR_BLACK;
 
-  private var _timer as Timer.Timer;
-
   function initialize(index as Number?, totalPages as Number?) {
     self._index = index;
     self._totalPages = totalPages;
 
     View.initialize();
-
-    _timer = new Timer.Timer();
   }
 
   // Load your resources here
@@ -43,7 +38,9 @@ class AQIcaBaseView extends WatchUi.View {
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
-  function onShow() as Void {}
+  function onShow() as Void {
+    _currentSystemTimerMs = System.getTimer();
+  }
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
@@ -54,8 +51,7 @@ class AQIcaBaseView extends WatchUi.View {
       return;
     }
 
-    if (_showPageIndicator == false) {
-      _showPageIndicator = true;
+    if (System.getTimer() - _currentSystemTimerMs >= 400) {
       return;
     }
 
@@ -77,20 +73,10 @@ class AQIcaBaseView extends WatchUi.View {
 
       tmpY += _spacingY;
     }
-
-    _timer.stop();
-    _timer.start(method(:hidePageIndicator), 500, false);
   }
 
   // Called when this View is removed from the screen. Save the
   // state of this View here. This includes freeing resources from
   // memory.
-  function onHide() as Void {
-    _timer.stop();
-  }
-
-  function hidePageIndicator() as Void {
-    _showPageIndicator = false;
-    WatchUi.requestUpdate();
-  }
+  function onHide() as Void {}
 }
