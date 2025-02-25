@@ -67,6 +67,9 @@ class AQIcaMainView extends AQIcaBaseView {
       }
     }
 
+    setAqiColor();
+    setDistanceColor();
+
     // Call the parent onUpdate function to redraw the layout
     AQIcaBaseView.onUpdate(dc);
   }
@@ -91,6 +94,58 @@ class AQIcaMainView extends AQIcaBaseView {
       return "V. Unhealthy";
     } else {
       return "Hazardous";
+    }
+  }
+
+  private function setAqiColor() {
+    var upperBackdropDrawable =
+      View.findDrawableById("upperBackdropDrawable") as RectangleDrawable?;
+    if (upperBackdropDrawable != null) {
+      var aqi = _aqiData.getAqi();
+      if (aqi != null) {
+        var color;
+        if (aqi <= 50) {
+          color = Graphics.COLOR_GREEN;
+        } else if (aqi <= 100) {
+          color = Graphics.COLOR_YELLOW;
+        } else if (aqi <= 150) {
+          color = Graphics.COLOR_ORANGE;
+        } else if (aqi <= 200) {
+          color = Graphics.COLOR_RED;
+        } else if (aqi <= 300) {
+          color = Graphics.COLOR_PURPLE;
+        } else {
+          color = 0x550000;
+        }
+
+        upperBackdropDrawable.setColor(color);
+      }
+    }
+  }
+
+  private function setDistanceColor() {
+    var lowerBackdropDrawable =
+      View.findDrawableById("lowerBackdropDrawable") as RectangleDrawable?;
+    if (lowerBackdropDrawable != null) {
+      var distance = _aqiData.getStationDistanceKm();
+      if (distance != null) {
+        var color;
+        if (distance <= 1) {
+          color = Graphics.COLOR_GREEN;
+        } else if (distance <= 2) {
+          color = Graphics.COLOR_YELLOW;
+        } else if (distance <= 3) {
+          color = Graphics.COLOR_ORANGE;
+        } else if (distance <= 5) {
+          color = Graphics.COLOR_RED;
+        } else if (distance <= 7) {
+          color = Graphics.COLOR_PURPLE;
+        } else {
+          color = 0x550000;
+        }
+
+        lowerBackdropDrawable.setColor(color);
+      }
     }
   }
 }
