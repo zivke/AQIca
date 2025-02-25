@@ -18,4 +18,9 @@ class AQIcaBehaviorDelegate extends WatchUi.BehaviorDelegate {
     _viewLoop.previousView();
     return true;
   }
+
+  function onSelect() {
+    _viewLoop.nextView();
+    return true;
+  }
 }
