@@ -1,8 +1,5 @@
 <resources>
     <drawable-list id="backdrop" background="Graphics.COLOR_BLACK" />
-    <drawable-list id="backdropInfo" background="Graphics.COLOR_BLACK">
-        <shape type="rectangle" x="0" y="0" width="100%" height="24%" color="Graphics.COLOR_WHITE" />
-    </drawable-list>
     <layouts>
         <layout id="MainLayout">
             <drawable id="backdrop" />
@@ -47,7 +44,13 @@
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
         </layout>
         <layout id="InfoLayout">
-            <drawable id="backdropInfo" />
+            <drawable id="backdrop" />
+            <drawable id="infoBackdropDrawable" class="RectangleDrawable">
+                <param name="locX">0</param>
+                <param name="locY">0</param>
+                <param name="relativeWidth">1</param>
+                <param name="relativeHeight">0.24</param>
+            </drawable>
             <text-area id="InfoTitle" text="" x="center" y="0" width="100%" height="24%"
                 font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_BLACK"
@@ -57,7 +60,13 @@
                 justification="Graphics.TEXT_JUSTIFY_CENTER" />
         </layout>
         <layout id="DetailsLayout">
-            <drawable id="backdropInfo" />
+            <drawable id="backdrop" />
+            <drawable id="infoBackdropDrawable" class="RectangleDrawable">
+                <param name="locX">0</param>
+                <param name="locY">0</param>
+                <param name="relativeWidth">1</param>
+                <param name="relativeHeight">0.24</param>
+            </drawable>
             <label id="DominantPollutantLabel" text="Dominant\npollutant" x="45%" y="12%"
                 font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_BLACK"
