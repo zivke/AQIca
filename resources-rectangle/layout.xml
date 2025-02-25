@@ -55,7 +55,7 @@
                 font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_BLACK"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-            <text-area id="InfoMessageValue" text="" x="center" y="24%" width="95%" height="76%"
+            <text-area id="InfoMessageValue" text="" x="center" y="26%" width="95%" height="74%"
                 font="Graphics.FONT_TINY" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER" />
         </layout>
