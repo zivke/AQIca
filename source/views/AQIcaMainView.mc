@@ -115,7 +115,7 @@ class AQIcaMainView extends AQIcaBaseView {
         } else if (aqi <= 300) {
           color = Graphics.COLOR_PURPLE;
         } else {
-          color = 0x550000;
+          color = Graphics.COLOR_PINK;
         }
 
         upperBackdropDrawable.setColor(color);
@@ -141,7 +141,7 @@ class AQIcaMainView extends AQIcaBaseView {
         } else if (distance <= 7) {
           color = Graphics.COLOR_PURPLE;
         } else {
-          color = 0x550000;
+          color = Graphics.COLOR_PINK;
         }
 
         lowerBackdropDrawable.setColor(color);
