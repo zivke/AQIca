@@ -5,7 +5,9 @@ import Toybox.System;
 import Toybox.WatchUi;
 
 class AQIcaBaseView extends WatchUi.View {
-  // Screen size
+  // Screen
+  private var _screenShape as System.ScreenShape =
+    System.getDeviceSettings().screenShape;
   private var _screenWidth as Float =
     System.getDeviceSettings().screenWidth.toFloat();
   private var _screenHeight as Float =
@@ -28,6 +30,10 @@ class AQIcaBaseView extends WatchUi.View {
   function initialize(index as Number?, totalPages as Number?) {
     self._index = index;
     self._totalPages = totalPages;
+
+    if (_screenShape == System.SCREEN_SHAPE_ROUND) {
+      _x = Math.round(_x * 1.8).toNumber();
+    }
 
     View.initialize();
   }

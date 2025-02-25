@@ -1,0 +1,95 @@
+<resources>
+    <drawable-list id="backdrop" background="Graphics.COLOR_BLACK" />
+    <drawable-list id="backdropInfo" background="Graphics.COLOR_BLACK">
+        <shape type="rectangle" x="0" y="0" width="100%" height="30%" color="Graphics.COLOR_WHITE" />
+    </drawable-list>
+    <layouts>
+        <layout id="MainLayout">
+            <drawable id="backdrop" />
+            <drawable id="upperBackdropDrawable" class="RectangleDrawable">
+                <param name="locX">0</param>
+                <param name="locY">0</param>
+                <param name="relativeWidth">1</param>
+                <param name="relativeHeight">0.3</param>
+            </drawable>
+            <drawable id="lowerBackdropDrawable" class="RectangleDrawable">
+                <param name="locX">0</param>
+                <param name="relativeY">0.7</param>
+                <param name="relativeWidth">1</param>
+                <param name="relativeHeight">0.3</param>
+            </drawable>
+            <label id="AqiLabel" text="AQI" x="45%" y="17%" font="Graphics.FONT_LARGE"
+                color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="AqiValue" text="N/A" x="55%" y="17%" font="Graphics.FONT_LARGE"
+                color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" />
+
+            <label id="Pm25Label" text="PM 2.5" x="45%" y="42%" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="Pm25Value" text="N/A" x="55%" y="42%" font="Graphics.FONT_LARGE"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" />
+
+            <label id="Pm10Label" text="PM 10" x="45%" y="58%" font="Graphics.FONT_XTINY"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="Pm10Value" text="N/A" x="55%" y="58%" font="Graphics.FONT_LARGE"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" />
+
+            <label id="DistanceLabel" text="Distance to station:" x="center" y="78%"
+                font="Graphics.FONT_TINY" color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="DistanceValue" text="N/A" x="center" y="90%"
+                font="Graphics.FONT_SMALL" color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+        </layout>
+        <layout id="InfoLayout">
+            <drawable id="backdropInfo" />
+            <text-area id="InfoTitle" text="" x="center" y="0" width="100%" height="30%"
+                font="Graphics.FONT_TINY"
+                color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <text-area id="InfoMessageValue" text="" x="center" y="33%" width="85%" height="67%"
+                font="Graphics.FONT_TINY" color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_CENTER" />
+        </layout>
+        <layout id="DetailsLayout">
+            <drawable id="backdropInfo" />
+            <label id="DominantPollutantValue" text="N/A" x="center" y="10%"
+                font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="DominantPollutantLabel" text="Dominant pollutant" x="center" y="22%"
+                font="Graphics.FONT_TINY"
+                color="Graphics.COLOR_BLACK"
+                justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
+            <label id="CoLabel" text="CO" x="40%" y="35%" font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="CoValue" text="N/A" x="60%" y="35%" font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="No2Label" text="NO2" x="40%" y="50%" font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="No2Value" text="N/A" x="60%" y="50%" font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="O3Label" text="O3" x="40%" y="65%" font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="O3Value" text="N/A" x="60%" y="65%" font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+            <label id="So2Label" text="SO2" x="40%" y="80%" font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_RIGHT" />
+            <label id="So2Value" text="N/A" x="60%" y="80%" font="Graphics.FONT_SMALL"
+                color="Graphics.COLOR_WHITE"
+                justification="Graphics.TEXT_JUSTIFY_LEFT" />
+        </layout>
+    </layouts>
+</resources>
