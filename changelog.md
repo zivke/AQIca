@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-02-26
+
+### Added
+
+- Support for 90 different Garmin watches
+- Handle all possible errors
+- Find the closest measuring station and load its data
+- Add pollution level labels or colors where possible
+- Show the distance to the used measuring station
+- Limit the searching distance
+- Add info views that explain what is happening
+- Add a view for additional pollution information
+- Add a view for the measuring station exact location and name
+- Add a view for the data source
+- Implement a (custom) view loop
+- Add a workaround for the swipe gesture bug on some watches
+- Add a page indicator
+
 ## [0.0.2] - 2025-02-15
 
 ### Fixed
@@ -22,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic error handling
 - Use last known location (from Weather)
 
-[unreleased]: https://github.com/zivke/SimpTemp/compare/v0.0.2...HEAD
+[unreleased]: https://github.com/zivke/SimpTemp/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/zivke/SimpTemp/releases/tag/v1.0.0
 [0.0.2]: https://github.com/zivke/SimpTemp/releases/tag/v0.0.2
 [0.0.1]: https://github.com/zivke/SimpTemp/releases/tag/v0.0.1
