@@ -1,5 +1,0 @@
-<settings>
-    <setting propertyKey="@Properties.ApiKey" title="@Strings.ApiKey" helpUrl="https://aqicn.org/data-platform/token/">
-        <settingConfig type="alphaNumeric" required="true" />
-    </setting>
-</settings>

@@ -277,7 +277,7 @@ class AqiData {
 
     _boxSizeIncrement = 0.02d;
 
-    _apiToken = Application.Properties.getValue("ApiKey") as String?;
+    _apiToken = "";
   }
 
   private function requestHttpDataByPositionBox(
