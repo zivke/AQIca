@@ -2,11 +2,13 @@ import Toybox.Application;
 import Toybox.Communications;
 import Toybox.Lang;
 import Toybox.Math;
+import Toybox.System;
 import Toybox.Weather;
 
 class Status {
   enum Code {
-    UNKNOWN_ERROR = -11,
+    UNKNOWN_ERROR = -12,
+    PHONE_NOT_CONNECTED = -11,
     INVALID_DATA_RECEIVED = -10,
     NO_STATIONS_FOUND = -9,
     API_TOKEN_OVER_QUOTA = -8,
@@ -43,6 +45,8 @@ class Status {
 
   function getMessage() as String {
     switch (self._code) {
+      case PHONE_NOT_CONNECTED:
+        return "Phone not connected";
       case INVALID_DATA_RECEIVED:
         return "Invalid data received";
       case NO_STATIONS_FOUND:
@@ -119,6 +123,11 @@ class AqiData {
     self._status = new Status();
 
     _status.setCode(Status.INITIALIZING);
+
+    if (!System.getDeviceSettings().phoneConnected) {
+      _status.setCode(Status.PHONE_NOT_CONNECTED);
+      return;
+    }
 
     // Check compatibility
     if (Toybox has :Weather) {
