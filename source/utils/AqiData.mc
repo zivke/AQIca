@@ -134,13 +134,16 @@ class AqiData {
       var currentConditions = Weather.getCurrentConditions();
       if (currentConditions == null) {
         _status.setCode(Status.WEATHER_CONDITIONS_NOT_AVAILABLE);
+        return;
       }
 
       if (currentConditions.observationLocationPosition == null) {
         _status.setCode(Status.POSITION_NOT_AVAILABLE);
+        return;
       }
     } else {
       _status.setCode(Status.WEATHER_NOT_SUPPORTED);
+      return;
     }
 
     _status.setCode(Status.INITIALIZED);
@@ -360,6 +363,7 @@ class AqiData {
                     System.println("Malformed response received: " + response);
 
                     _status.setCode(Status.INVALID_DATA_RECEIVED);
+                    return;
                   }
                 } else {
                   // Multiple stations found in the box
@@ -399,6 +403,7 @@ class AqiData {
                         );
 
                         _status.setCode(Status.INVALID_DATA_RECEIVED);
+                        return;
                       }
                     } else {
                       // Malformed response
@@ -407,6 +412,7 @@ class AqiData {
                       );
 
                       _status.setCode(Status.INVALID_DATA_RECEIVED);
+                      return;
                     }
                   }
 
@@ -431,12 +437,14 @@ class AqiData {
                 System.println("Malformed response received: " + response);
 
                 _status.setCode(Status.INVALID_DATA_RECEIVED);
+                return;
               }
             } else {
               // Malformed response
               System.println("Malformed response received: " + response);
 
               _status.setCode(Status.INVALID_DATA_RECEIVED);
+              return;
             }
           } else if (response.get("status").equals("error")) {
             if (response.hasKey("data")) {
@@ -448,35 +456,41 @@ class AqiData {
               } else {
                 _status.setCode(Status.UNKNOWN_ERROR);
               }
+              return;
             } else {
               // Malformed response
               System.println("Malformed response received: " + response);
 
               _status.setCode(Status.INVALID_DATA_RECEIVED);
+              return;
             }
           } else {
             // Malformed response
             System.println("Malformed response received: " + response);
 
             _status.setCode(Status.INVALID_DATA_RECEIVED);
+            return;
           }
         } else {
           // Malformed response
           System.println("Malformed response received: " + response);
 
           _status.setCode(Status.INVALID_DATA_RECEIVED);
+          return;
         }
       } else {
         // Invalid data received
         System.println("Invalid response received: " + response);
 
         _status.setCode(Status.INVALID_DATA_RECEIVED);
+        return;
       }
     } else {
       // responseCode != 200
       System.println("Error response code: " + responseCode);
 
       _status.setCode(Status.INVALID_DATA_RECEIVED);
+      return;
     }
   }
 
@@ -530,6 +544,7 @@ class AqiData {
       System.println("Malformed data received: " + data);
 
       _status.setCode(Status.INVALID_DATA_RECEIVED);
+      return;
     }
 
     if (data.hasKey("dominentpol")) {
