@@ -1,4 +1,5 @@
 <strings>
     <string id="AppName">AQIca</string>
     <string id="ApiKey">API Key from aqicn.org</string>
+    <string id="FancyScrollLabel">Use fancy scroll</string>
 </strings>

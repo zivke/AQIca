@@ -37,7 +37,7 @@
             <label id="DistanceLabel" text="Distance to station:" x="center" y="120"
                 font="Graphics.FONT_XTINY" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-            <label id="DistanceValue" text="N/A" x="center" y="145"
+            <label id="DistanceValue" text="N/A" x="center" y="140"
                 font="Graphics.FONT_SMALL" color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
         </layout>
@@ -60,28 +60,28 @@
             <label id="DominantPollutantValue" text="N/A" x="135" y="25" font="Graphics.FONT_SMALL"
                 color="Graphics.COLOR_BLACK"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-            <label id="CoLabel" text="CO" x="45%" y="60" font="Graphics.FONT_XTINY"
+            <label id="CoLabel" text="CO" x="45%" y="55" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_RIGHT" />
-            <label id="CoValue" text="N/A" x="55%" y="60" font="Graphics.FONT_XTINY"
+            <label id="CoValue" text="N/A" x="55%" y="55" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_LEFT" />
-            <label id="No2Label" text="NO2" x="45%" y="85" font="Graphics.FONT_XTINY"
+            <label id="No2Label" text="NO2" x="45%" y="80" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_RIGHT" />
-            <label id="No2Value" text="N/A" x="55%" y="85" font="Graphics.FONT_XTINY"
+            <label id="No2Value" text="N/A" x="55%" y="80" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_LEFT" />
-            <label id="O3Label" text="O3" x="45%" y="110" font="Graphics.FONT_XTINY"
+            <label id="O3Label" text="O3" x="45%" y="105" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_RIGHT" />
-            <label id="O3Value" text="N/A" x="55%" y="110" font="Graphics.FONT_XTINY"
+            <label id="O3Value" text="N/A" x="55%" y="105" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_LEFT" />
-            <label id="So2Label" text="SO2" x="45%" y="135" font="Graphics.FONT_XTINY"
+            <label id="So2Label" text="SO2" x="45%" y="130" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_RIGHT" />
-            <label id="So2Value" text="N/A" x="55%" y="135" font="Graphics.FONT_XTINY"
+            <label id="So2Value" text="N/A" x="55%" y="130" font="Graphics.FONT_XTINY"
                 color="Graphics.COLOR_WHITE"
                 justification="Graphics.TEXT_JUSTIFY_LEFT" />
         </layout>

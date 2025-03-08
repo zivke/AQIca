@@ -1,3 +1,4 @@
 <properties>
-    <property id="ApiKey" type="string" />
+    <property id="ApiKey" type="string"></property>
+    <property id="FancyScroll" type="boolean">true</property>
 </properties>

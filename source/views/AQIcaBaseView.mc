@@ -14,6 +14,7 @@ class AQIcaBaseView extends WatchUi.View {
     System.getDeviceSettings().screenHeight.toFloat();
 
   // Page indicator properties
+  private var _fancyScroll as Boolean?;
   private var _index as Number?;
   private var _totalPages as Number?;
   private var _currentSystemTimerMs as Number = 0;
@@ -28,6 +29,8 @@ class AQIcaBaseView extends WatchUi.View {
   private var _background_color as Number = Graphics.COLOR_BLACK;
 
   function initialize(index as Number?, totalPages as Number?) {
+    self._fancyScroll =
+      Application.Properties.getValue("FancyScroll") as Boolean?;
     self._index = index;
     self._totalPages = totalPages;
 
@@ -45,7 +48,9 @@ class AQIcaBaseView extends WatchUi.View {
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
   function onShow() as Void {
-    _currentSystemTimerMs = System.getTimer();
+    if (_fancyScroll != null && _fancyScroll) {
+      _currentSystemTimerMs = System.getTimer();
+    }
   }
 
   // Update the view
@@ -57,27 +62,31 @@ class AQIcaBaseView extends WatchUi.View {
       return;
     }
 
-    if (System.getTimer() - _currentSystemTimerMs >= 400) {
-      return;
-    }
-
-    var tmpY = _y;
-    for (var i = 0; i < _totalPages; i++) {
-      // Border
-      dc.setColor(_background_color, Graphics.COLOR_TRANSPARENT);
-      dc.fillCircle(_x, tmpY, _outerRadius + _borderWidth);
-
-      // Outer fill
-      dc.setColor(_foreground_color, Graphics.COLOR_TRANSPARENT);
-      dc.fillCircle(_x, tmpY, _outerRadius);
-
-      if (i != _index) {
-        // Inner fill
-        dc.setColor(_background_color, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(_x, tmpY, _innerRadius);
+    if (_fancyScroll != null && _fancyScroll) {
+      if (System.getTimer() - _currentSystemTimerMs >= 400) {
+        return;
       }
 
-      tmpY += _spacingY;
+      var tmpY = _y;
+      for (var i = 0; i < _totalPages; i++) {
+        // Border
+        dc.setColor(_background_color, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(_x, tmpY, _outerRadius + _borderWidth);
+
+        // Outer fill
+        dc.setColor(_foreground_color, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(_x, tmpY, _outerRadius);
+
+        if (i != _index) {
+          // Inner fill
+          dc.setColor(_background_color, Graphics.COLOR_TRANSPARENT);
+          dc.fillCircle(_x, tmpY, _innerRadius);
+        }
+
+        tmpY += _spacingY;
+      }
+    } else {
+      drawPageDownTriangle(dc);
     }
   }
 
@@ -85,4 +94,27 @@ class AQIcaBaseView extends WatchUi.View {
   // state of this View here. This includes freeing resources from
   // memory.
   function onHide() as Void {}
+
+  private function drawPageDownTriangle(dc as Graphics.Dc) {
+    var sizeFactor = Math.floor(dc.getWidth() / 100).toNumber();
+    var pointX = dc.getWidth() * 0.5;
+    var pointY = dc.getHeight() * 0.99;
+
+    // Create the polygon points array
+    var points = [
+      [pointX - 4 * sizeFactor, pointY - 4 * sizeFactor],
+      [pointX + 4 * sizeFactor, pointY - 4 * sizeFactor],
+      [pointX, pointY],
+    ];
+
+    // Draw the triangle
+    dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+    dc.fillPolygon(points);
+
+    // Draw the triangle outline (so it is visible if it goes outside of the chart)
+    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+    dc.drawLine(points[0][0] - 1, points[0][1], points[1][0] + 1, points[1][1]);
+    dc.drawLine(points[1][0] + 1, points[1][1], points[2][0], points[2][1] + 1);
+    dc.drawLine(points[2][0], points[2][1] + 1, points[0][0] - 1, points[0][1]);
+  }
 }
