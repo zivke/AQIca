@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-03-09
+
+### Added
+
+- Add an option to enable or disable the fancy scroll
+
+### Changed
+
+- Replace the launcher icon
+
 ## [1.0.0] - 2025-02-26
 
 ### Added
@@ -40,7 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic error handling
 - Use last known location (from Weather)
 
-[unreleased]: https://github.com/zivke/SimpTemp/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/zivke/SimpTemp/releases/tag/v1.0.0
-[0.0.2]: https://github.com/zivke/SimpTemp/releases/tag/v0.0.2
-[0.0.1]: https://github.com/zivke/SimpTemp/releases/tag/v0.0.1
+[unreleased]: https://github.com/zivke/AQIca/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/zivke/AQIca/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/zivke/AQIca/compare/v0.0.2...v1.0.0
+[0.0.2]: https://github.com/zivke/AQIca/compare/v0.0.1...v0.0.2
+[0.0.1]: https://github.com/zivke/AQIca/releases/tag/v0.0.1

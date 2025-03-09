@@ -42,7 +42,7 @@
             <label id="DistanceLabel" text="Distance to station:" x="center" y="78%"
                 font="Graphics.FONT_XTINY" color="Graphics.COLOR_BLACK"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
-            <label id="DistanceValue" text="N/A" x="center" y="90%"
+            <label id="DistanceValue" text="N/A" x="center" y="88%"
                 font="Graphics.FONT_SMALL" color="Graphics.COLOR_BLACK"
                 justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" />
         </layout>

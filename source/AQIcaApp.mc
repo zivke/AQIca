@@ -7,17 +7,24 @@ class AQIcaApp extends Application.AppBase {
   private var _aqiData as AqiData;
   private var _timer as Timer.Timer;
 
+  private var _fancyScroll as Boolean?;
+
   function initialize() {
     AppBase.initialize();
 
     self._aqiData = new AqiData();
     self._timer = new Timer.Timer();
+    self._fancyScroll =
+      Application.Properties.getValue("FancyScroll") as Boolean?;
   }
 
   // onStart() is called on application start up
   function onStart(state as Dictionary?) as Void {
     _aqiData.load();
-    _timer.start(method(:requestUpdateViews), 500, true);
+
+    if (_fancyScroll != null && _fancyScroll) {
+      _timer.start(method(:requestUpdateViews), 500, true);
+    }
   }
 
   // onStop() is called when your application is exiting
