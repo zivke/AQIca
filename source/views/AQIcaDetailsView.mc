@@ -55,7 +55,7 @@ class AQIcaDetailsView extends AQIcaBaseView {
     // Set the O3 label value
     var o3Label = View.findDrawableById("O3Value") as Text?;
     if (o3Label != null) {
-      if (_aqiData.getNo2() != null) {
+      if (_aqiData.getO3() != null) {
         o3Label.setText(_aqiData.getO3().format("%.1f").toString());
       }
     }
