@@ -29,19 +29,19 @@ class AQIcaDetailsView extends AQIcaBaseView {
 
   // Update the view
   function onUpdate(dc as Dc) as Void {
+    // Set the dominant pollutant label value
+    var dominantPollutantLabel =
+      View.findDrawableById("DominantPollutantValue") as Text?;
+    if (dominantPollutantLabel != null) {
+      dominantPollutantLabel.setText(_aqiData.getDominantPollutant());
+    }
+
     // Set the CO label value
     var coLabel = View.findDrawableById("CoValue") as Text?;
     if (coLabel != null) {
       if (_aqiData.getCo() != null) {
         coLabel.setText(_aqiData.getCo().format("%.1f").toString());
       }
-    }
-
-    // Set the dominant pollutant label value
-    var dominantPollutantLabel =
-      View.findDrawableById("DominantPollutantValue") as Text?;
-    if (dominantPollutantLabel != null) {
-      dominantPollutantLabel.setText(_aqiData.getDominantPollutant());
     }
 
     // Set the NO2 label value
