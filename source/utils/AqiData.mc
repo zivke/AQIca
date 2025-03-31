@@ -109,11 +109,11 @@ class AqiData {
   private var _no2 as Float?;
   private var _o3 as Float?;
   private var _so2 as Float?;
-  private var _temperature as Number?;
-  private var _humidity as Number?;
-  private var _pressure as Number?;
+  private var _temperature as Float?;
+  private var _humidity as Float?;
+  private var _pressure as Float?;
   private var _wind as Float?;
-  private var _dewPoint as Number?;
+  private var _dewPoint as Float?;
 
   private var _boxSizeIncrement as Double = 0.02d;
 
@@ -232,15 +232,15 @@ class AqiData {
     return _so2;
   }
 
-  function getTemperature() as Number? {
+  function getTemperature() as Float? {
     return _temperature;
   }
 
-  function getHumidity() as Number? {
+  function getHumidity() as Float? {
     return _humidity;
   }
 
-  function getPressure() as Number? {
+  function getPressure() as Float? {
     return _pressure;
   }
 
@@ -248,7 +248,7 @@ class AqiData {
     return _wind;
   }
 
-  function getDewPoint() as Number? {
+  function getDewPoint() as Float? {
     return _dewPoint;
   }
 
@@ -615,19 +615,19 @@ class AqiData {
       if (iaqi.hasKey("t")) {
         tmp = iaqi.get("t") as Dictionary?;
         if (tmp != null && tmp.hasKey("v")) {
-          _temperature = tmp.get("v") as Number?;
+          _temperature = tmp.get("v") as Float?;
         }
       }
       if (iaqi.hasKey("h")) {
         tmp = iaqi.get("h") as Dictionary?;
         if (tmp != null && tmp.hasKey("v")) {
-          _humidity = tmp.get("v") as Number?;
+          _humidity = tmp.get("v") as Float?;
         }
       }
       if (iaqi.hasKey("p")) {
         tmp = iaqi.get("p") as Dictionary?;
         if (tmp != null && tmp.hasKey("v")) {
-          _pressure = tmp.get("v") as Number?;
+          _pressure = tmp.get("v") as Float?;
         }
       }
       if (iaqi.hasKey("w")) {
@@ -639,7 +639,7 @@ class AqiData {
       if (iaqi.hasKey("dew")) {
         tmp = iaqi.get("dew") as Dictionary?;
         if (tmp != null && tmp.hasKey("v")) {
-          _dewPoint = tmp.get("v") as Number?;
+          _dewPoint = tmp.get("v") as Float?;
         }
       }
     } else {
