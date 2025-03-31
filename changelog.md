@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2025-03-31
+
+### Fixed
+
+- Crash on the second page that happens for some measuring stations
+- Fix the type used for some of the fetched data
+
 ## [1.1.0] - 2025-03-09
 
 ### Added
@@ -50,7 +57,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic error handling
 - Use last known location (from Weather)
 
-[unreleased]: https://github.com/zivke/AQIca/compare/v1.1.0...HEAD
+[unreleased]: https://github.com/zivke/AQIca/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/zivke/AQIca/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/zivke/AQIca/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/zivke/AQIca/compare/v0.0.2...v1.0.0
 [0.0.2]: https://github.com/zivke/AQIca/compare/v0.0.1...v0.0.2
